@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9MoR4q/eZmO91EO9bMGvsnPFmDPOo1ITjOJ4PeOnn5y/1aEN76j5qa4Qq3rkYrc2vKIWOifVAqXSctS9dBDylw==",
+  "dgSpecHash": "v/qxrtxzz7nrW1ttgCltZyUFOYn0UBhgSMMkupL9RS7u8hHlqdmlpXWmwj/X3zePxX/pOV24qcS6OWPcLvpxmA==",
   "success": true,
-  "projectFilePath": "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj",
+  "projectFilePath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Shiba\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Shiba\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -3914,6 +3914,7 @@
     "net7.0": [
       "Microsoft.AspNetCore.OpenApi >= 7.0.10",
       "Microsoft.EntityFrameworkCore >= 7.0.10",
+      "Microsoft.EntityFrameworkCore.Design >= 7.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.10",
       "Swashbuckle.AspNetCore >= 6.5.0"
@@ -3926,11 +3927,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj",
+      "projectUniqueName": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
       "projectName": "SHIBANK",
-      "projectPath": "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj",
+      "projectPath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
       "packagesPath": "C:\\Users\\Shiba\\.nuget\\packages\\",
-      "outputPath": "C:\\Proyects\\.NET\\SHIBANK\\obj\\",
+      "outputPath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3969,6 +3970,12 @@
             "version": "[7.0.10, )"
           },
           "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[7.0.10, )"
+          },
+          "Microsoft.EntityFrameworkCore.Design": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
             "target": "Package",
             "version": "[7.0.10, )"
           },

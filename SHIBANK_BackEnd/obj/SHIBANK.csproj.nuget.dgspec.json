@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj": {}
+    "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj": {}
   },
   "projects": {
-    "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj": {
+    "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj",
+        "projectUniqueName": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
         "projectName": "SHIBANK",
-        "projectPath": "C:\\Proyects\\.NET\\SHIBANK\\SHIBANK.csproj",
+        "projectPath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
         "packagesPath": "C:\\Users\\Shiba\\.nuget\\packages\\",
-        "outputPath": "C:\\Proyects\\.NET\\SHIBANK\\obj\\",
+        "outputPath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,12 @@
               "version": "[7.0.10, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.10, )"
             },
