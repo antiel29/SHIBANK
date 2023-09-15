@@ -1,5 +1,5 @@
 # SHIBANK - Secure Home Investment Bank
-Homebanking aplicacion la cual puede dar de alta usuarios,crear una cuenta bancaria,hacer depositos y transferencias a terceros.Todos los movimientos se guardan en un historial en el main con fecha y hora.
+Homebanking application that allows you to register, open a bank account, make deposits, or transactions with others.
 
 # Technologies:
 - **Backend:** .NET 7.0.
