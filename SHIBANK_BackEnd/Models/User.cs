@@ -10,7 +10,7 @@ namespace SHIBANK.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
-        [StringLength(50,MinimumLength = 10, ErrorMessage = "Password must be at least 10 characters.")]
+        [StringLength(maximumLength: 50, ErrorMessage = "Password must be at least 10 characters.")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "FirstName is required.")]
@@ -22,6 +22,10 @@ namespace SHIBANK.Models
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
+
+
+        //Relaciones
+        public ICollection<BankAccount> BankAccounts { get; set; }
 
     }
 }

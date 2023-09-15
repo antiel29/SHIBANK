@@ -15,7 +15,10 @@ namespace SHIBANK.Models
 
         public DateTime Date { get; set; }
 
+
+        //Relaciones
         public int BankAccountId { get; set; }
+        public BankAccount BankAccount { get; set;}
 
     }
 }
