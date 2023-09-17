@@ -8,5 +8,7 @@ namespace SHIBANK.Interfaces
         User GetUser(int id);
         User GetUser(string username);
         bool UserExists(int id);
+
+        bool UserExists(string username);
     }
 }

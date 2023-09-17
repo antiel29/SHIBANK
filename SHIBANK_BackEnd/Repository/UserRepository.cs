@@ -14,22 +14,26 @@ namespace SHIBANK.Repository
 
         public User GetUser(int id)
         {
-            return _context.Users.Where(p=>p.Id == id).FirstOrDefault();
+            return _context.Users.Where(u=>u.Id == id).FirstOrDefault();
         }
 
         public User GetUser(string username)
         {
-            return _context.Users.Where(p => p.Username == username).FirstOrDefault();
+            return _context.Users.Where(u => u.Username == username).FirstOrDefault();
         }
 
         public ICollection<User> GetUsers()
         {
-            return _context.Users.OrderBy(p => p.Id).ToList();
+            return _context.Users.OrderBy(u => u.Id).ToList();
         }
 
         public bool UserExists(int id)
         {
-            return _context.Users.Any(p=>p.Id == id);
+            return _context.Users.Any(u=>u.Id == id);
+        }
+        public bool UserExists(string username) 
+        {
+            return _context.Users.Any(u=>u.Username == username);
         }
     }
 }

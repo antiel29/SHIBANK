@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Data;
+using SHIBANK.Dto;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 
@@ -10,17 +12,19 @@ namespace SHIBANK.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
-        private readonly DataContext _context;
-        public UserController(IUserRepository userRepository, DataContext context)
+        private readonly IMapper _mapper;
+
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            _context = context;
+            _mapper = mapper;
         }
         [HttpGet]
         [ProducesResponseType(200,Type=typeof(IEnumerable<User>))]
         public IActionResult GetUser() 
         {
-            var users = _userRepository.GetUsers();
+            var users = _mapper.Map<List<UserDto>>(_userRepository.GetUsers());
+
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -29,7 +33,7 @@ namespace SHIBANK.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(400)]
         public IActionResult GetUser(int id)
@@ -38,7 +42,7 @@ namespace SHIBANK.Controllers
             {
                 return NotFound();
             }
-            var user = _userRepository.GetUser(id);
+            var user = _mapper.Map<UserDto>(_userRepository.GetUser(id));
 
             if (!ModelState.IsValid) 
             { 
@@ -47,6 +51,27 @@ namespace SHIBANK.Controllers
 
             return Ok(user);
         }
+        
+        [HttpGet("{username}")]
+        [ProducesResponseType(200, Type = typeof(User))]
+        [ProducesResponseType(400)]
+        public IActionResult GetUser(string username)
+        {
+            if (!_userRepository.UserExists(username))
+            {
+                return NotFound();
+            }
+            var user = _mapper.Map<UserDto>(_userRepository.GetUser(username));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(user);
+        }
+        
+
 
     }
 }
