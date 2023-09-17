@@ -10,5 +10,8 @@ namespace SHIBANK.Interfaces
         bool UserExists(int id);
 
         bool UserExists(string username);
+
+        bool RegisterUser(User user);
+        bool Save();
     }
 }

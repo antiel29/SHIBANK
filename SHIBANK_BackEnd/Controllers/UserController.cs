@@ -70,8 +70,36 @@ namespace SHIBANK.Controllers
 
             return Ok(user);
         }
-        
 
+        [HttpPost("register")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult RegisterUser([FromBody] UserRegisterDto userRegister) 
+        {
+            if(userRegister == null) 
+                return BadRequest(ModelState);
+
+            var user = _userRepository.GetUsers()
+                .Where(u => u.Username.Trim().ToUpper() == userRegister.Username.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (user != null)
+            {
+                ModelState.AddModelError("", "User already exists");
+                return StatusCode(422, ModelState);
+            }
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var userMap = _mapper.Map<User>(userRegister);
+
+            if (!_userRepository.RegisterUser(userMap)) 
+            {
+                ModelState.AddModelError("", "Something went wrong while savin");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Succefully created");
+        }
 
     }
 }

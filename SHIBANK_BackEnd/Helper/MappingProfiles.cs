@@ -9,8 +9,12 @@ namespace SHIBANK.Helper
         public MappingProfiles()
         {
             CreateMap<User, UserDto>();
-            CreateMap<BankAccount, BankAccountDto>();
+            CreateMap<UserRegisterDto, User>();
 
+            CreateMap<BankAccount, BankAccountDto>();
+            CreateMap<BankAccountCreateDto, BankAccount>();
+
+            CreateMap<Transaction, TransactionDto>();
         }
     }
 }

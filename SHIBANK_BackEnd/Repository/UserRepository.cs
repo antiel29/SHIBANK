@@ -12,6 +12,12 @@ namespace SHIBANK.Repository
             _context = context;
         }
 
+        public bool RegisterUser(User user)
+        {
+            _context.Add(user);
+            return Save();
+        }
+
         public User GetUser(int id)
         {
             return _context.Users.Where(u=>u.Id == id).FirstOrDefault();
@@ -25,6 +31,12 @@ namespace SHIBANK.Repository
         public ICollection<User> GetUsers()
         {
             return _context.Users.OrderBy(u => u.Id).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool UserExists(int id)

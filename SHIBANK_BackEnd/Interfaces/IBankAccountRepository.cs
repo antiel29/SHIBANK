@@ -10,6 +10,10 @@ namespace SHIBANK.Interfaces
         ICollection<BankAccount> GetBankAccountsByUser(int userId);
 
         bool BankAccountExists(int id);
+        bool BankAccountExists(string accountNumber);
+
+        bool CreateBankAccount(BankAccount bankAccount);
+        bool Save();
 
     }
 }

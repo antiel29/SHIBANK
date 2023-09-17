@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Dto;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 using SHIBANK.Repository;
+using SHIBANK.Services;
 
 namespace SHIBANK.Controllers
 {
@@ -12,11 +14,15 @@ namespace SHIBANK.Controllers
     public class BankAccountController : Controller
     {
         private readonly IBankAccountRepository _bankAccountRepository;
+        private readonly IBankAccountService _bankAccountService;
         private readonly IMapper _mapper;
-        public BankAccountController(IBankAccountRepository bankAccountRepository, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        public BankAccountController(IUserRepository userRepository, IBankAccountService bankAccountService, IBankAccountRepository bankAccountRepository, IMapper mapper)
         {
             _bankAccountRepository = bankAccountRepository;
+            _bankAccountService = bankAccountService;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccount>))]
@@ -50,7 +56,7 @@ namespace SHIBANK.Controllers
             return Ok(bankAccount);
         }
 
-        [HttpGet("user/{userId}/bank")]
+        [HttpGet("user/{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccount>))]
         [ProducesResponseType(400)]
         public IActionResult GetBankAccountsByUser(int userId)
@@ -60,6 +66,27 @@ namespace SHIBANK.Controllers
             if(!ModelState.IsValid) { return BadRequest(ModelState); }
 
             return Ok(bankAccounts);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateBankAccount([FromBody] BankAccountCreateDto bankAccountCreate)
+        {
+            if (bankAccountCreate == null)
+                return BadRequest(ModelState);
+
+            var user = _userRepository.GetUser(bankAccountCreate.UserId);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "User doesn't exist");
+                return StatusCode(422, ModelState);
+            }
+
+            var bankAccount = _bankAccountService.CreateBankAccountForUser(user.Id);
+
+            return Ok("Successfully created");
         }
 
     }
