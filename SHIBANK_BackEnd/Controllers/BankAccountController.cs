@@ -71,7 +71,7 @@ namespace SHIBANK.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateBankAccount([FromBody] BankAccountCreateDto bankAccountCreate)
+        public IActionResult CreateBankAccount([FromQuery] BankAccountCreateDto bankAccountCreate)
         {
             if (bankAccountCreate == null)
                 return BadRequest(ModelState);
@@ -89,5 +89,85 @@ namespace SHIBANK.Controllers
             return Ok("Successfully created");
         }
 
+
+
+        [HttpPut("deposit/{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult Deposit(int id, [FromQuery] decimal amount)
+        {
+            if (amount < 0)
+                return BadRequest(ModelState);
+
+            var existingBankAccount = _bankAccountRepository.GetBankAccount(id);
+
+            if (existingBankAccount == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            existingBankAccount.Balance += amount;
+
+            if (!_bankAccountRepository.Deposit(existingBankAccount))
+            {
+                ModelState.AddModelError("", "Something went wrong trying deposit");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpPut("withdraw/{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult Withdraw(int id, [FromQuery] decimal amount)
+        {
+            if (amount < 0)
+                return BadRequest(ModelState);
+
+            var existingBankAccount = _bankAccountRepository.GetBankAccount(id);
+
+            if (existingBankAccount == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if(existingBankAccount.Balance < amount)
+                return BadRequest(ModelState);
+
+            existingBankAccount.Balance -= amount;
+
+            if (!_bankAccountRepository.Withdraw(existingBankAccount))
+            {
+                ModelState.AddModelError("", "Something went wrong trying withdraw");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+
+
+        [HttpDelete("{Id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteBankAccount(int Id)
+        {
+            if (!_bankAccountRepository.BankAccountExists(Id))
+                return NotFound();
+
+            var bankAccountToDelete = _bankAccountRepository.GetBankAccount(Id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_bankAccountRepository.DeleteBankAccount(bankAccountToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting bank account");
+            }
+            return NoContent();
+        }
     }
 }

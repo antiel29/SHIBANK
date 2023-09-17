@@ -13,6 +13,12 @@ namespace SHIBANK.Interfaces
         bool BankAccountExists(string accountNumber);
 
         bool CreateBankAccount(BankAccount bankAccount);
+
+        bool Withdraw(BankAccount bankAccount);
+
+        bool Deposit(BankAccount bankAccount);
+
+        bool DeleteBankAccount(BankAccount bankAccount);
         bool Save();
 
     }

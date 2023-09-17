@@ -4,6 +4,7 @@ using SHIBANK.Dto;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 using SHIBANK.Repository;
+using SHIBANK.Services;
 
 namespace SHIBANK.Controllers
 {
@@ -13,11 +14,15 @@ namespace SHIBANK.Controllers
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
+        private readonly IBankAccountRepository _bankAccountRepository;
+        private readonly ITransactionService _transactionService;
 
-        public TransactionController(ITransactionRepository transactionRepository , IMapper mapper)
+        public TransactionController(ITransactionRepository transactionRepository , IMapper mapper, IBankAccountRepository bankAccountRepository, ITransactionService transactionService)
         {
             _transactionRepository = transactionRepository;
+            _transactionService = transactionService;
             _mapper = mapper;
+            _bankAccountRepository = bankAccountRepository;
         }
 
         [HttpGet]
@@ -62,6 +67,36 @@ namespace SHIBANK.Controllers
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             return Ok(transactions);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateTransaction([FromBody] TransactionCreateDto transactionCreate,int IdDestination )
+        {
+            if (transactionCreate == null)
+                return BadRequest(ModelState);
+
+            var bankAccountOrigin = _bankAccountRepository.GetBankAccount(transactionCreate.BankAccountId);
+            var bankAccountDestination = _bankAccountRepository.GetBankAccount(IdDestination);
+
+            if (bankAccountOrigin == null || bankAccountDestination == null)
+            {
+                ModelState.AddModelError("", "Bank account doesn't exist");
+                return StatusCode(422, ModelState);
+            }
+
+            if (bankAccountOrigin.Balance - transactionCreate.Amount < 0)
+            {
+                ModelState.AddModelError("", "Insuficient founds");
+                return StatusCode(422, ModelState);
+            }
+
+            var transaction = _transactionService.CreateTransactionOD(transactionCreate,bankAccountOrigin, bankAccountDestination);
+
+            _transactionRepository.CreateTransaction(transaction);
+
+            return Ok("Successfully created");
         }
 
     }

@@ -12,6 +12,8 @@ namespace SHIBANK.Interfaces
 
         bool TransactionExists(int id);
 
+        bool CreateTransaction(Transaction transaction);
+        bool Save();
 
     }
 }

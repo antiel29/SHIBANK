@@ -26,6 +26,19 @@ namespace SHIBANK.Repository
             _context.Add(bankAccount);
             return Save();
         }
+
+        public bool DeleteBankAccount(BankAccount bankAccount)
+        {
+            _context.Remove(bankAccount);
+            return Save();
+        }
+
+        public bool Deposit(BankAccount bankAccount)
+        {
+            _context.Update(bankAccount);
+            return Save();
+        }
+
         public BankAccount GetBankAccount(int id)
         {
             return _context.BankAccounts.Where(a => a.Id == id).FirstOrDefault();
@@ -45,6 +58,13 @@ namespace SHIBANK.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool Withdraw(BankAccount bankAccount)
+        {
+            _context.Update(bankAccount);
+            return Save();
+
         }
     }
 }

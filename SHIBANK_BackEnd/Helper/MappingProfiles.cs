@@ -10,11 +10,13 @@ namespace SHIBANK.Helper
         {
             CreateMap<User, UserDto>();
             CreateMap<UserRegisterDto, User>();
+            CreateMap<UserDto, User>();
 
             CreateMap<BankAccount, BankAccountDto>();
             CreateMap<BankAccountCreateDto, BankAccount>();
 
             CreateMap<Transaction, TransactionDto>();
+            CreateMap<TransactionCreateDto, Transaction>();
         }
     }
 }

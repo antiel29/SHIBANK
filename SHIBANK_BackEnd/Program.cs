@@ -15,6 +15,7 @@ builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IBankAccountRepository,BankAccountRepository>();
 builder.Services.AddScoped<ITransactionRepository,TransactionRepository>();
 builder.Services.AddScoped<IBankAccountService,BankAccountService>();
+builder.Services.AddScoped<ITransactionService,TransactionService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

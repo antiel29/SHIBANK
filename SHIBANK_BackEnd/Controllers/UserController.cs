@@ -101,5 +101,60 @@ namespace SHIBANK.Controllers
             return Ok("Succefully created");
         }
 
+        [HttpPut("{Id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateUser(int Id, [FromBody] UserDto updateUser)
+        {
+            if (updateUser == null)
+                return BadRequest(ModelState);
+
+            if (Id != updateUser.Id)
+                return BadRequest(ModelState);
+
+            var existingUser = _userRepository.GetUser(Id);
+
+            if (existingUser == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            existingUser.Username = updateUser.Username;
+            existingUser.FirstName = updateUser.FirstName;
+            existingUser.LastName = updateUser.LastName;
+            existingUser.Email = updateUser.Email;
+
+            if (!_userRepository.UpdateUser(existingUser))
+            {
+                ModelState.AddModelError("", "Something went wrong updating user");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{Id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteUser(int Id) 
+        {
+            if (!_userRepository.UserExists(Id))
+                return NotFound();
+
+            var userToDelete = _userRepository.GetUser(Id);
+
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_userRepository.DeleteUser(userToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting user");
+            }
+            return NoContent();
+        }
+
     }
 }

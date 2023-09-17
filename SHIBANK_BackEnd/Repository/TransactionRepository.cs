@@ -11,6 +11,12 @@ namespace SHIBANK.Repository
             _context = context;
         }
 
+        public bool CreateTransaction(Transaction transaction)
+        {
+            _context.Add(transaction);
+            return Save();
+        }
+
         public Transaction GetTransaction(int id)
         {
             return _context.Transactions.Where(t => t.Id == id).FirstOrDefault();
@@ -24,6 +30,12 @@ namespace SHIBANK.Repository
         public ICollection<Transaction> GetTransactionsByBankAccount(int bankAccountId)
         {
             return _context.Transactions.Where(t=> t.BankAccountId == bankAccountId).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool TransactionExists(int id)
