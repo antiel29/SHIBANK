@@ -19,7 +19,7 @@ builder.Services.AddScoped<ITransactionService,TransactionService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
+builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -45,12 +45,17 @@ void SeedData(IHost app)
     }
 }
 
-
-
+app.UseCors(builder =>
+{
+    builder.WithOrigins("http://localhost:4200") 
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
