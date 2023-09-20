@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Dto;
 using SHIBANK.Interfaces;
@@ -10,6 +11,7 @@ namespace SHIBANK.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TransactionController : Controller
     {
         private readonly ITransactionRepository _transactionRepository;

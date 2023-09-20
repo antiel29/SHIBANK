@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Data;
 using SHIBANK.Dto;
@@ -7,104 +8,110 @@ using SHIBANK.Models;
 
 namespace SHIBANK.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _mapper = mapper;
         }
+
+
+        //Get all users
         [HttpGet]
         [ProducesResponseType(200,Type=typeof(IEnumerable<User>))]
         public IActionResult GetUser() 
         {
-            var users = _mapper.Map<List<UserDto>>(_userRepository.GetUsers());
+            var users = _userService.GetUsers();
+            var usersDto = _mapper.Map<List<UserDto>>(users);
 
-            if(!ModelState.IsValid)
-            {
+            if(!ModelState.IsValid) 
                 return BadRequest(ModelState);
-            }
-            return Ok(users);
+
+            return Ok(usersDto);
         }
 
-
-        [HttpGet("id/{id}")]
+        //Get user by id
+        [HttpGet("id/{Id}")]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(400)]
-        public IActionResult GetUser(int id)
+        public IActionResult GetUser(int Id)
         {
-            if (!_userRepository.UserExists(id))
-            {
+            if (!_userService.UserExists(Id)) 
                 return NotFound();
-            }
-            var user = _mapper.Map<UserDto>(_userRepository.GetUser(id));
+
+            var user = _userService.GetUser(Id);
+            var userDto = _mapper.Map<UserDto>(user);
 
             if (!ModelState.IsValid) 
-            { 
                 return BadRequest(ModelState);
-            }
 
-            return Ok(user);
+            return Ok(userDto);
         }
         
+        //Get user by username
         [HttpGet("{username}")]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(400)]
         public IActionResult GetUser(string username)
         {
-            if (!_userRepository.UserExists(username))
-            {
+            if (!_userService.UserExists(username))
                 return NotFound();
-            }
-            var user = _mapper.Map<UserDto>(_userRepository.GetUser(username));
+
+            var user = _userService.GetUser(username);
+            var userDto = _mapper.Map<UserDto>(user);
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            return Ok(user);
+            return Ok(userDto);
         }
 
+
+        //Create a new user
         [HttpPost("register")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult RegisterUser([FromBody] UserRegisterDto userRegister) 
+        public IActionResult RegisterUser([FromBody] UserRegisterDto userRegisterDto)
         {
-            if(userRegister == null) 
+            if (userRegisterDto == null)
                 return BadRequest(ModelState);
 
-            var user = _userRepository.GetUsers()
-                .Where(u => u.Username.Trim().ToUpper() == userRegister.Username.TrimEnd().ToUpper())
-                .FirstOrDefault();
-
-            if (user != null)
+            if (!_userService.UserExists(userRegisterDto.Username))
             {
                 ModelState.AddModelError("", "User already exists");
                 return StatusCode(422, ModelState);
             }
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            var userMap = _mapper.Map<User>(userRegister);
+            var user = _mapper.Map<User>(userRegisterDto);
+            var success = _userService.RegisterUser(user);
 
-            if (!_userRepository.RegisterUser(userMap)) 
+            if (!success) 
             {
                 ModelState.AddModelError("", "Something went wrong while savin");
                 return StatusCode(500, ModelState);
             }
-            return Ok("Succefully created");
+            return Created($"api/user/{user.Id}", "Successfully registered");
         }
 
+
+
+
+
+        /*
+
+        //Update a existing user
         [HttpPut("{Id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [Authorize]
         public IActionResult UpdateUser(int Id, [FromBody] UserDto updateUser)
         {
             if (updateUser == null)
@@ -135,10 +142,13 @@ namespace SHIBANK.Controllers
             return NoContent();
         }
 
+
+        //Delete a user
         [HttpDelete("{Id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize]
         public IActionResult DeleteUser(int Id) 
         {
             if (!_userRepository.UserExists(Id))
@@ -155,6 +165,8 @@ namespace SHIBANK.Controllers
             }
             return NoContent();
         }
+
+        */
 
     }
 }

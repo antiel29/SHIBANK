@@ -11,6 +11,7 @@ namespace SHIBANK.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BankAccountController : Controller
     {
         private readonly IBankAccountRepository _bankAccountRepository;
