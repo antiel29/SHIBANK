@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Dto;
 using SHIBANK.Interfaces;
@@ -11,26 +12,50 @@ namespace SHIBANK.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly TokenBlacklist _tokenBlacklist;
+
+
+        public AuthController(IAuthService authService, TokenBlacklist tokenBlacklist)
         {
             _authService = authService;
+            _tokenBlacklist = tokenBlacklist;
         }
 
-        //Login
-        [HttpPost]
-        public IActionResult Login([FromBody]UserLoginDto userloginDto)
+        //Create a JWT token, if 30 min innactive then expires
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody] UserLoginDto userloginDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = _authService.Authenticate(userloginDto.Username, userloginDto.Password);
+            var authResult = _authService.Authenticate(userloginDto.Username, userloginDto.Password);
 
-            if (user == null)
+            if (!authResult.Success)
                 return Unauthorized();
 
-            var token = _authService.GenerateToken(user);
+            return Ok(new { token = authResult.Token });
+        }
 
-            return Ok(new { token });
+        //Logout
+        [HttpPost("Logout")]
+        [Authorize]
+        public IActionResult Logout()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            if (token != null)
+            {
+                if (_tokenBlacklist.IsTokenBlacklisted(token))
+                {
+                    return Ok("Token is already revoked or expired.");
+                }
+
+                _tokenBlacklist.AddToBlacklist(token);
+
+                return Ok("Logout successful");
+            }
+
+            return Ok("Logout successful");
         }
 
 

@@ -15,8 +15,13 @@ builder.Services.AddTransient<Seed>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IBankAccountRepository,BankAccountRepository>();
 builder.Services.AddScoped<ITransactionRepository,TransactionRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBankAccountService,BankAccountService>();
 builder.Services.AddScoped<ITransactionService,TransactionService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<TokenBlacklist>();
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -50,6 +55,9 @@ builder.Services.AddAuthentication(options =>
     });
 
 
+
+
+
 var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
@@ -73,13 +81,18 @@ app.UseCors(builder =>
            .AllowAnyMethod();
 });
 
-// Configure the HTTP request pipeline.
+// 
 if (app.Environment.IsDevelopment())
 {
 
     app.UseSwagger();
+
     app.UseSwaggerUI();
+
 }
+
+
+
 
 app.UseHttpsRedirection();
 

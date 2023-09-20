@@ -5,6 +5,8 @@ using SHIBANK.Data;
 using SHIBANK.Dto;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
+using SHIBANK.Repository;
+using System.Security.Claims;
 
 namespace SHIBANK.Controllers
 {
@@ -100,27 +102,18 @@ namespace SHIBANK.Controllers
             return Created($"api/user/{user.Id}", "Successfully registered");
         }
 
-
-
-
-
-        /*
-
         //Update a existing user
-        [HttpPut("{Id}")]
+        [HttpPut("update")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [Authorize]
-        public IActionResult UpdateUser(int Id, [FromBody] UserDto updateUser)
+        public IActionResult UpdateUser( [FromBody] UserDto updateUser)
         {
             if (updateUser == null)
                 return BadRequest(ModelState);
 
-            if (Id != updateUser.Id)
-                return BadRequest(ModelState);
-
-            var existingUser = _userRepository.GetUser(Id);
+            var existingUser = _userService.GetUser(updateUser.Username);
 
             if (existingUser == null)
                 return NotFound();
@@ -133,7 +126,7 @@ namespace SHIBANK.Controllers
             existingUser.LastName = updateUser.LastName;
             existingUser.Email = updateUser.Email;
 
-            if (!_userRepository.UpdateUser(existingUser))
+            if (!_userService.UpdateUser(existingUser))
             {
                 ModelState.AddModelError("", "Something went wrong updating user");
                 return StatusCode(500, ModelState);
@@ -144,29 +137,29 @@ namespace SHIBANK.Controllers
 
 
         //Delete a user
-        [HttpDelete("{Id}")]
+        [HttpDelete("delete")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [Authorize]
-        public IActionResult DeleteUser(int Id) 
+        public IActionResult DeleteUser() 
         {
-            if (!_userRepository.UserExists(Id))
+            var Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!_userService.UserExists(Id))
                 return NotFound();
 
-            var userToDelete = _userRepository.GetUser(Id);
+            var userToDelete = _userService.GetUser(Id);
 
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!_userRepository.DeleteUser(userToDelete))
+            if (!_userService.DeleteUser(userToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting user");
             }
             return NoContent();
         }
-
-        */
 
     }
 }
