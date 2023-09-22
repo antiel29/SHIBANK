@@ -6,22 +6,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using System.Reflection.Metadata.Ecma335;
-<<<<<<< HEAD
-=======
 using Microsoft.Extensions.Configuration;
->>>>>>> master
 
 namespace SHIBANK.Services
 {
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-<<<<<<< HEAD
-
-        public AuthService(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-=======
         private readonly IConfiguration _configuration;
 
         public AuthService(IUserRepository userRepository, IConfiguration configuration)
@@ -29,7 +20,6 @@ namespace SHIBANK.Services
             _userRepository = userRepository;
             _configuration = configuration;
 
->>>>>>> master
         }
 
 
@@ -50,26 +40,6 @@ namespace SHIBANK.Services
 
         public string GenerateToken(User user)
         {
-<<<<<<< HEAD
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.ASCII.GetBytes("WelcomeToTheNHK27");
-
-            var now = DateTime.UtcNow;
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username)
-                }),
-                IssuedAt = now,
-                Expires = now.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-=======
 
             var jwt = _configuration.GetSection("Jwt").Get<Jwt>();
 
@@ -92,7 +62,6 @@ namespace SHIBANK.Services
                 );
 
            return new JwtSecurityTokenHandler().WriteToken(token);
->>>>>>> master
         }
         
     }

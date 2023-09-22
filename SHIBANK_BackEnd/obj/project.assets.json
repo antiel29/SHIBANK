@@ -754,8 +754,6 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
-<<<<<<< HEAD
-=======
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -769,7 +767,6 @@
           }
         }
       },
->>>>>>> master
       "Swashbuckle.AspNetCore/6.5.0": {
         "type": "package",
         "dependencies": {
@@ -2581,8 +2578,6 @@
         "mono.texttemplating.nuspec"
       ]
     },
-<<<<<<< HEAD
-=======
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -2613,7 +2608,6 @@
         "packageIcon.png"
       ]
     },
->>>>>>> master
     "Swashbuckle.AspNetCore/6.5.0": {
       "sha512": "FK05XokgjgwlCI6wCT+D4/abtQkL1X1/B9Oas6uIwHFmYrIO9WUD5aLC9IzMs9GnHfUXOtXZ2S43gN1mhs5+aA==",
       "type": "package",
@@ -4062,13 +4056,9 @@
       "Microsoft.EntityFrameworkCore.Design >= 7.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.10",
-<<<<<<< HEAD
-      "Swashbuckle.AspNetCore >= 6.5.0"
-=======
       "Newtonsoft.Json >= 13.0.3",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "Swashbuckle.AspNetCore.Swagger >= 6.5.0"
->>>>>>> master
     ]
   },
   "packageFolders": {
@@ -4097,10 +4087,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-<<<<<<< HEAD
-        "C:\\Program Files\\dotnet\\library-packs": {},
-=======
->>>>>>> master
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4155,11 +4141,6 @@
             "target": "Package",
             "version": "[7.0.10, )"
           },
-<<<<<<< HEAD
-          "Swashbuckle.AspNetCore": {
-            "target": "Package",
-            "version": "[6.5.0, )"
-=======
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
@@ -4171,7 +4152,6 @@
           "Swashbuckle.AspNetCore.Swagger": {
             "target": "Package",
             "version": "[6.5.0, )"
->>>>>>> master
           }
         },
         "imports": [
@@ -4193,12 +4173,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
-=======
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
->>>>>>> master
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

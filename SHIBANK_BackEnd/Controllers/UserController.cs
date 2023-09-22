@@ -1,19 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
-using SHIBANK.Data;
-using SHIBANK.Dto;
-using SHIBANK.Interfaces;
-using SHIBANK.Models;
-using SHIBANK.Repository;
-using System.Security.Claims;
-=======
 using SHIBANK.Dto;
 using SHIBANK.Helper;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
->>>>>>> master
 
 namespace SHIBANK.Controllers
 {
@@ -115,27 +106,6 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [Authorize]
-<<<<<<< HEAD
-        public IActionResult UpdateUser( [FromBody] UserDto updateUser)
-        {
-            if (updateUser == null)
-                return BadRequest(ModelState);
-
-            var existingUser = _userService.GetUser(updateUser.Username);
-
-            if (existingUser == null)
-                return NotFound();
-
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            existingUser.Username = updateUser.Username;
-            existingUser.FirstName = updateUser.FirstName;
-            existingUser.LastName = updateUser.LastName;
-            existingUser.Email = updateUser.Email;
-
-            if (!_userService.UpdateUser(existingUser))
-=======
         public IActionResult UpdateUser( [FromBody] UserUpdateDto updateUserDto)
         {
             if (updateUserDto == null)
@@ -157,7 +127,6 @@ namespace SHIBANK.Controllers
             user.Email = updateUserDto.Email;
 
             if (!_userService.UpdateUser(user))
->>>>>>> master
             {
                 ModelState.AddModelError("", "Something went wrong updating user");
                 return StatusCode(500, ModelState);
@@ -175,29 +144,17 @@ namespace SHIBANK.Controllers
         [Authorize]
         public IActionResult DeleteUser() 
         {
-<<<<<<< HEAD
-            var Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-=======
             var Id = UserHelper.GetUserIdFromClaim(User);
->>>>>>> master
 
             if (!_userService.UserExists(Id))
                 return NotFound();
 
-<<<<<<< HEAD
-            var userToDelete = _userService.GetUser(Id);
-=======
             var user = _userService.GetUser(Id);
->>>>>>> master
 
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-<<<<<<< HEAD
-            if (!_userService.DeleteUser(userToDelete))
-=======
             if (!_userService.DeleteUser(user))
->>>>>>> master
             {
                 ModelState.AddModelError("", "Something went wrong deleting user");
             }

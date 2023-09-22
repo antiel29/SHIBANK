@@ -229,7 +229,4 @@ C:\Project\SHIBANK\SHIBANK_BackEnd\obj\Debug\net7.0\ref\SHIBANK.dll
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\AutoMapper.dll
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-<<<<<<< HEAD
-=======
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Newtonsoft.Json.dll
->>>>>>> master
