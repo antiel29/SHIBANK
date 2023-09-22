@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "2ZbvvZGULXr/2BPK4qWmQtMU7+FF7BoXHNq2wKMxjFAQOuaThXonrrER0pB2JPj7vQJQsxLK+iYBpZr4fHpTAA==",
+=======
+  "dgSpecHash": "JUG74/q+GOPSakuCJ9D51c3OSbsPrsrCz2mafus67o+QQYa980H1ovAnLkA4qLXGsAH3IiHVfQCdr4RE/GCLWg==",
+>>>>>>> master
   "success": true,
   "projectFilePath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
   "expectedPackageFiles": [
@@ -48,6 +52,10 @@
     "C:\\Users\\Shiba\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Shiba\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\Shiba\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+<<<<<<< HEAD
+=======
+    "C:\\Users\\Shiba\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+>>>>>>> master
     "C:\\Users\\Shiba\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\Shiba\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\Shiba\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

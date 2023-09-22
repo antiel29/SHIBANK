@@ -12,16 +12,27 @@ namespace SHIBANK.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+<<<<<<< HEAD
         private readonly TokenBlacklist _tokenBlacklist;
 
 
         public AuthController(IAuthService authService, TokenBlacklist tokenBlacklist)
+=======
+        private readonly ITokenBlacklistService _tokenBlacklist;
+
+
+        public AuthController(IAuthService authService, ITokenBlacklistService tokenBlacklist)
+>>>>>>> master
         {
             _authService = authService;
             _tokenBlacklist = tokenBlacklist;
         }
 
+<<<<<<< HEAD
         //Create a JWT token, if 30 min innactive then expires
+=======
+        //Create a JWT token
+>>>>>>> master
         [HttpPost("Login")]
         public IActionResult Login([FromBody] UserLoginDto userloginDto)
         {
