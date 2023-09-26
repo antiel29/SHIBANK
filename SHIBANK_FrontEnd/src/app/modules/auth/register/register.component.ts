@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+
 import { UserService } from 'src/app/core/services/user.service';
 import { UserRegister } from 'src/app/core/models/user-register.model';
+
+import { NotificationService } from 'src/app/core/shared/notification/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -9,24 +12,24 @@ import { UserRegister } from 'src/app/core/models/user-register.model';
 })
 export class RegisterComponent {
   user : UserRegister = new UserRegister ();
-  successMessage: string = '';
-  errorMessage: string = '';
-  constructor(private userService: UserService){}
 
-  onSubmit()
-  {
-    this.userService.registerUser(this.user).subscribe(
-    (response) =>
-    {
-      this.successMessage = 'Usuario registrado exitosamente.';
-      this.errorMessage = '';
+  constructor(private userService: UserService, private notificationService: NotificationService){}
 
-    },
-    (error) => 
-    {
-      this.successMessage = ''; 
-      this.errorMessage = 'Error al registrar el usuario. Por favor, verifica los datos e intenta nuevamente.';
+  onSubmit() {
+    if(this.user.form.valid){
+    this.userService.registerUser(this.user.form.value).subscribe(
+      (res) =>{
+        this.notificationService.openSnackBar('Successful registration.',3000);
+        console.log(res);
+      },
+      (err) => {
+        this.notificationService.openSnackBar('Error while attempting to register. Please verify the data and try again.',5000);
+        console.error(err);
+      } 
+      );
     }
-    );
+    else{
+      this.notificationService.openSnackBar('Invalid form data. Please check your inputs',5000);
+    }
   }
-}
+  }  
