@@ -83,7 +83,7 @@ namespace SHIBANK.Controllers
             if (userRegisterDto == null)
                 return BadRequest(ModelState);
 
-            if (!_userService.UserExists(userRegisterDto.Username))
+            if (_userService.UserExists(userRegisterDto.Username))
             {
                 ModelState.AddModelError("", "User already exists");
                 return StatusCode(422, ModelState);

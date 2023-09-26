@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
-import { RegistrationService } from '../registration.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { UserRegister } from 'src/app/core/models/user-register.model';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class RegistrationComponent 
-{
-  user: any={};
+export class RegisterComponent {
+  user : UserRegister = new UserRegister ();
   successMessage: string = '';
   errorMessage: string = '';
-
-  constructor(private registrationService:RegistrationService){}
+  constructor(private userService: UserService){}
 
   onSubmit()
   {
-    this.registrationService.registerUser(this.user).subscribe(
+    this.userService.registerUser(this.user).subscribe(
     (response) =>
     {
       this.successMessage = 'Usuario registrado exitosamente.';

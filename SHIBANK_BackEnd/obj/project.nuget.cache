@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JUG74/q+GOPSakuCJ9D51c3OSbsPrsrCz2mafus67o+QQYa980H1ovAnLkA4qLXGsAH3IiHVfQCdr4RE/GCLWg==",
+  "dgSpecHash": "v7nvuEYiSAzmChIPisS5Qdq3W1D4UbuPHc5y7t4PPg4sxKyOQrKoJc5URvdmdc1khtLaZw8VPHZeAVb8NFOU/w==",
   "success": true,
   "projectFilePath": "C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\SHIBANK.csproj",
   "expectedPackageFiles": [
@@ -83,12 +83,5 @@
     "C:\\Users\\Shiba\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\Shiba\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problema al leer el archivo de caché C:\\Project\\SHIBANK\\SHIBANK_BackEnd\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

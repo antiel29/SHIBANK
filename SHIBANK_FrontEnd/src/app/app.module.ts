@@ -2,23 +2,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { RouterModule,Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { RegistrationComponent } from './registration/registration.component'
+import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http'
-const routes: Routes= [ 
-  { path:'register',component:RegistrationComponent },
-];
+
+import { AuthComponent } from './modules/auth/auth.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    AppRoutingModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
