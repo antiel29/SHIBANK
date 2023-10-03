@@ -6,12 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [RegisterComponent],
+  declarations: [RegisterComponent,LoginComponent],
   imports: [
     ReactiveFormsModule,
     FormsModule,

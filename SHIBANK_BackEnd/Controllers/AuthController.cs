@@ -22,7 +22,7 @@ namespace SHIBANK.Controllers
         }
 
         //Create a JWT token
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginDto userloginDto)
         {
             if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace SHIBANK.Controllers
         }
 
         //Logout
-        [HttpPost("Logout")]
+        [HttpPost("logout")]
         [Authorize]
         public IActionResult Logout()
         {
