@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { UserLogin } from 'src/app/core/models/user-login.model';
 import { AuthService } from 'src/app/core/authentication/auth.service';
+import { Router } from '@angular/router';
 
 import { NotificationService } from 'src/app/core/shared/notification/notification.service';
 
@@ -13,7 +14,7 @@ import { NotificationService } from 'src/app/core/shared/notification/notificati
 export class LoginComponent {
   user : UserLogin = new UserLogin();
 
-  constructor(private authService:AuthService, private notificationService:NotificationService){}
+  constructor(private router:Router,private authService:AuthService, private notificationService:NotificationService){}
 
   onSubmit(){
     if (this.user.form.valid){
@@ -23,10 +24,11 @@ export class LoginComponent {
         console.log(res);
         this.authService.storeToken(res.token);
         
+        this.router.navigate(['/home']);
 
       },
       (err) =>{
-        this.notificationService.openSnackBar('Problem with login.',3000);
+        this.notificationService.openSnackBar('Username dont exist or dont match with password.',3000);
         console.log(err);
       }
       );

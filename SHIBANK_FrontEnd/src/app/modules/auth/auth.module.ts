@@ -8,6 +8,8 @@ import { SharedModule } from 'src/app/core/shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+
 
 
 
@@ -19,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     CommonModule,
     AuthRoutingModule,
+    MatButtonModule,
   ]
 })
 export class AuthModule { }

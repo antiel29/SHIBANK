@@ -1,0 +1,52 @@
+.container{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100vh;
+}
+
+form{
+    width: 80%;
+    max-width: 500px;
+}
+
+label{
+    font-size: 14px;
+    display: block;
+    margin-bottom:5px;
+}
+
+input{
+    border: none;
+    border-bottom: 1px solid #000;
+    height: 35px;
+    width: 100%;
+    margin-left: 30px;
+}
+
+.error-message {
+    text-align: right;
+    color:crimson;
+}
+
+.login-button{
+    height: 50px;
+    width: 250px;
+    border-radius: 5%;
+    font-size: 15px;
+    margin-top: 100px;
+    margin-left: 150px;
+    text-align: center;
+    
+}
+
+.register-button {
+    height: 50px;
+    width: 250px;
+    border-radius: 5%;
+    font-size: 15px ;
+    margin-top: 20px;
+    margin-left: 150px;
+    text-align: center;
+}

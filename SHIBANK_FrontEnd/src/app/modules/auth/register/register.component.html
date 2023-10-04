@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="text" id="password" name="password" formControlName="password">
+        <input type="password" id="password" name="password" formControlName="password">
         <div *ngIf="user.form.get('password')?.hasError('required') && user.form.get('password')?.touched" class="error-message">
             Password is required
         </div>
@@ -52,5 +52,9 @@
     </div>
     
     <button type="submit">Register</button>
+
+    <button [routerLink]="['/auth/login']">Login</button>
+
   </form>
 </div>
+

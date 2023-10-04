@@ -6,9 +6,13 @@ import { HomeComponent } from './modules/home/home.component';
 import { AuthGuardHome } from './core/authentication/auth-guard-home.service';
 
 const routes: Routes = [
-  {path : '',canActivate:[AuthGuardHome], loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)},
+  {path : 'auth',
+  canActivate:[AuthGuardHome],
+   loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+  },
+  {path : '' , redirectTo: 'auth/login',pathMatch: 'full'},
   {path: 'home', component:HomeComponent, canActivate:[AuthGuard]},
-  {path: '**', redirectTo: '/home' },
+  {path: '**', redirectTo: 'home'},
 ]
 
 @NgModule({
