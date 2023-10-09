@@ -44,6 +44,11 @@ namespace SHIBANK.Repository
             return _context.BankAccounts.Where(a => a.Id == id).FirstOrDefault();
         }
 
+        public BankAccount GetBankAccount(string accountNumber)
+        {
+            return _context.BankAccounts.Where(a => a.AccountNumber == accountNumber).FirstOrDefault();
+        }
+
         public ICollection<BankAccount> GetBankAccounts()
         {
            return _context.BankAccounts.OrderBy(a => a.Id).ToList();

@@ -10,6 +10,10 @@ const routes: Routes = [
   canActivate:[AuthGuardHome],
    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
   },
+  {path : 'banking',
+  canActivate:[AuthGuard],
+   loadChildren: () => import('./modules/banking/banking.module').then(m => m.BankingModule)
+  },
   {path : '' , redirectTo: 'auth/login',pathMatch: 'full'},
   {path: 'home', component:HomeComponent, canActivate:[AuthGuard]},
   {path: '**', redirectTo: 'home'},

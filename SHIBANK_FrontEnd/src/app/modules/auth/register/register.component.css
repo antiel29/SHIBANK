@@ -2,7 +2,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    height: 90vh;
 }
 form{
     width: 80%;
@@ -11,13 +11,17 @@ form{
 }
 
 label{
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
     display: block;
     margin-bottom:5px;
+    color:rgb(75, 75, 75);
 }
 input{
     border: none;
     border-bottom: 1px solid #000;
+    font-size: 15px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 35px;
     width: 100%;
     margin-left: 30px;
@@ -29,10 +33,37 @@ input{
 }
 
 .title{
+    position: relative;
+    top: 100px;
     margin-left: 100px;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    color:rgb(75, 75, 75);
 }
 .image{
     float: right;
-    height: 800px;
-    width: 900px;
+    margin-right: 10px;
+    height: 900px;
+    width: 1000px;
+}
+
+.login-button{
+    height: 50px;
+    width: 250px;
+    border-radius: 5%;
+    font-size: 15px;
+    margin-top: 100px;
+    text-align: center;
+    
+}
+
+.register-button {
+    height: 50px;
+    width: 250px;
+    border-radius: 5%;
+    font-size: 15px ;
+    margin-top: 20px;
+    margin-left: 150px;
+    text-align: center;
 }

@@ -10,6 +10,14 @@ namespace SHIBANK.Interfaces
 
         ICollection<Transaction> GetTransactionsByBankAccount(int bankAccountId);
 
+        ICollection<Transaction> GetTransactionsByBankAccount(string accountNumber);
+
+        ICollection<Transaction> GetTransactionsByUsername(string username);
+        ICollection<Transaction> GetTransactionsRecievedUsername(string username);
+
+        ICollection<Transaction> GetTransactionsRecieved(string accountNumber);
+
+
         bool TransactionExists(int id);
 
         bool CreateTransaction(Transaction transaction);

@@ -19,7 +19,6 @@ namespace SHIBANK.Data
         {
             if (!_context.Users.Any())
             {
-                // Agrega usuarios de ejemplo
                 var users = new List<User>
                 {
                     new User
@@ -54,7 +53,6 @@ namespace SHIBANK.Data
 
             if (!_context.BankAccounts.Any())
             {
-                // Agrega cuentas bancarias de ejemplo
                 var bankAccounts = new List<BankAccount>
                 {
                     new BankAccount
@@ -66,14 +64,14 @@ namespace SHIBANK.Data
                     new BankAccount
                     {
                         AccountNumber = "987654321",
-                        Balance = 750.0m,
-                        UserId = 2
+                        Balance = 0.0m,
+                        UserId = 1
                     },
                     new BankAccount
                     {
                         AccountNumber = "555555555",
-                        Balance = 0.0m,
-                        UserId = 3 
+                        Balance = 500.0m,
+                        UserId = 2
                     }
                 };
 
@@ -83,24 +81,19 @@ namespace SHIBANK.Data
 
             if (!_context.Transactions.Any())
             {
-                // Agrega transacciones de ejemplo
                 var transactions = new List<Transaction>
                 {
                     new Transaction
                     {
-                        Type = "Deposit",
+                        Message = "Giving 500 to punpun for his birthday!",
                         Amount = 500.0m,
                         Date = DateTime.Now,
+                        OriginUsername = "antiel_ilundayn",
+                        DestinyUsername = "pedro_punpun",
+                        OriginAccountNumber = "123456789",
+                        DestinyAccountNumber = "555555555",
                         BankAccountId = 1 
-                    },
-                    new Transaction
-                    {
-                        Type = "Withdrawal",
-                        Amount = 200.0m,
-                        Date = DateTime.Now,
-                        BankAccountId = 2 
-                    },
-                 
+                    },            
                 };
 
                 _context.Transactions.AddRange(transactions);

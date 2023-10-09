@@ -6,23 +6,75 @@ namespace SHIBANK.Services
 {
     public class TransactionService : ITransactionService
     {
+        private readonly ITransactionRepository _transactionRepository;
+        private readonly IBankAccountRepository _bankAccountRepository;
 
-        public Transaction CreateTransactionOD(TransactionCreateDto transaction, BankAccount accountOrigin, BankAccount accountDestination)
+        public TransactionService(ITransactionRepository transactionRepository, IBankAccountRepository bankAccountRepository)
         {
-            
+            _transactionRepository = transactionRepository;
+            _bankAccountRepository = bankAccountRepository;
+        }
+        public IEnumerable<Transaction> GetTransactions()
+        {
+            return _transactionRepository.GetTransactions();
+        }
 
+        public bool TransactionExists(int id)
+        {
+            return _transactionRepository.TransactionExists(id);
+        }
+        public Transaction GetTransaction(int id)
+        {
+            return _transactionRepository.GetTransaction(id);
+        }
+
+        public IEnumerable<Transaction> GetTransactionsByBankAccount(int bankAccountId)
+        {
+            return _transactionRepository.GetTransactionsByBankAccount(bankAccountId);
+        }
+
+        public IEnumerable<Transaction> GetTransactionsByBankAccount(string accountNumber)
+        {
+            return _transactionRepository.GetTransactionsByBankAccount(accountNumber);
+        }
+
+        public IEnumerable<Transaction> GetTransactionsByUsername(string username)
+        {
+            return _transactionRepository.GetTransactionsByUsername(username);
+        }
+        public ICollection<Transaction> GetTransactionsRecievedUsername(string username)
+        {
+            return _transactionRepository.GetTransactionsRecievedUsername(username);
+        }
+
+        public ICollection<Transaction> GetTransactionsRecieved(string accountNumber)
+        {
+            return _transactionRepository.GetTransactionsRecieved(accountNumber);
+        }
+
+        public Transaction CreateTransactionOD(TransactionCreateDto transaction, BankAccount origin, BankAccount destiny)
+        {
             var newTransaction = new Transaction
             {
-                Type = transaction.Type,
                 Amount = transaction.Amount,
                 Date = DateTime.Now,
-                BankAccountId = accountOrigin.Id
+                Message = transaction.Message,
+                OriginAccountNumber = origin.AccountNumber,
+                OriginUsername = origin.User.Username,
+                DestinyAccountNumber = destiny.AccountNumber,
+                DestinyUsername = destiny.User.Username,
+                BankAccountId = origin.Id
             };
 
-            accountOrigin.Balance -= transaction.Amount;
-            accountDestination.Balance += transaction.Amount;
+            origin.Balance -= transaction.Amount;
+            destiny.Balance += transaction.Amount;
 
             return newTransaction;
+        }
+
+        public bool CreateTransaction(Transaction transaction)
+        {
+            return _transactionRepository.CreateTransaction(transaction);
         }
     }
 }

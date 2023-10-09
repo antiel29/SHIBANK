@@ -97,7 +97,7 @@ namespace SHIBANK.Controllers
                 ModelState.AddModelError("", "Something went wrong while savin");
                 return StatusCode(500, ModelState);
             }
-            return Created($"api/user/{user.Id}", "Successfully registered");
+            return NoContent();
         }
 
         //Update a existing user

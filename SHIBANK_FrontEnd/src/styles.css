@@ -1,4 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0;
+    font-family: Roboto,"Helvetica Neue", sans-serif; 
+    background:  linear-gradient(to bottom, #f1e2bf, #ffffff); 
+}
+
+.login-page {
+    background-image: url('assets/images/shibalogin.png');
+    background-size:cover;
+    background-position: center center;
+    background-repeat: no-repeat; 
+}

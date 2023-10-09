@@ -18,7 +18,7 @@ namespace SHIBANK.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -55,9 +55,13 @@ namespace SHIBANK.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OriginUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DestinyUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OriginAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DestinyAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BankAccountId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

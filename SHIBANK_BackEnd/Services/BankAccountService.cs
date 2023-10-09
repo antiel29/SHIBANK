@@ -11,36 +11,53 @@ namespace SHIBANK.Services
         {
             _bankAccountRepository = bankAccountRepository;
         }
+        public IEnumerable<BankAccount> GetBankAccounts()
+        {
+            return _bankAccountRepository.GetBankAccounts();
+        }
 
+        public bool BankAccountExists(int id)
+        {
+            return _bankAccountRepository.BankAccountExists(id);
+        }
+
+        public bool BankAccountExists(string accountNumber)
+        {
+            return _bankAccountRepository.BankAccountExists(accountNumber);
+        }
+
+        public BankAccount GetBankAccount(int id)
+        {
+            return _bankAccountRepository.GetBankAccount(id);
+        }
+
+        public BankAccount GetBankAccount(string accountNumber)
+        {
+            return _bankAccountRepository.GetBankAccount(accountNumber);
+        }
+
+        public IEnumerable<BankAccount> GetBankAccountsByUser(int userId)
+        {
+            return _bankAccountRepository.GetBankAccountsByUser(userId);
+        }
 
         public string GenerateUniqueAccountNumber()
         {
-            string accountNumber;
-            do
-            {
-                accountNumber = GenerateRandomAccountNumber();
-
-            }
-            while (_bankAccountRepository.GetBankAccounts()
-            .Any(a => a.AccountNumber.Equals(accountNumber, StringComparison.OrdinalIgnoreCase)));
-            {
-                return accountNumber;
-            }
-        }
-        public string GenerateRandomAccountNumber()
-        {
             string chars = "0123456789";
-
             Random random = new Random();
-            string accountNumber = new string(Enumerable.Repeat(chars, 10)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
 
-           
-            while (_bankAccountRepository.BankAccountExists(accountNumber))
+            string accountNumber;
+            bool isUnique;
+
+            do 
             {
                 accountNumber = new string(Enumerable.Repeat(chars, 10)
                     .Select(s => s[random.Next(s.Length)]).ToArray());
-            }
+
+                isUnique = !_bankAccountRepository.BankAccountExists(accountNumber);
+
+            } 
+            while (!isUnique);
 
             return accountNumber;
         }
@@ -60,10 +77,26 @@ namespace SHIBANK.Services
 
             if (!_bankAccountRepository.CreateBankAccount(newBankAccount))
             {
-                throw new Exception("Error al crear la cuenta bancaria.");
+                throw new Exception("Error creating a bank account.");
             }
 
             return newBankAccount;
         }
+
+        public bool Deposit(BankAccount bankAccount)
+        {
+            return _bankAccountRepository.Deposit(bankAccount);
+        }
+
+        public bool Withdraw(BankAccount bankAccount)
+        {
+            return _bankAccountRepository.Withdraw(bankAccount);
+        }
+
+        public bool DeleteBankAccount(BankAccount bankAccount)
+        {
+            return _bankAccountRepository.DeleteBankAccount(bankAccount);
+        }
+
     }
 }

@@ -12,7 +12,7 @@ using SHIBANK.Data;
 namespace SHIBANK.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230914225713_InitialCreate")]
+    [Migration("20231007024239_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -68,7 +68,23 @@ namespace SHIBANK.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("DestinyAccountNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DestinyUsername")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginAccountNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginUsername")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -102,8 +118,7 @@ namespace SHIBANK.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()

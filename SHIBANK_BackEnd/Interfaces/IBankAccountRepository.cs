@@ -7,6 +7,8 @@ namespace SHIBANK.Interfaces
         ICollection<BankAccount> GetBankAccounts();
         BankAccount GetBankAccount(int id);
 
+        BankAccount GetBankAccount(string accountNumber);
+
         ICollection<BankAccount> GetBankAccountsByUser(int userId);
 
         bool BankAccountExists(int id);
