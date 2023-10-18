@@ -8,6 +8,7 @@ using SHIBANK.Interfaces;
 using SHIBANK.Repository;
 using SHIBANK.Services;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,6 +67,8 @@ builder.Services.AddSwaggerGen(c =>
 
 
 
+
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -106,9 +109,10 @@ void SeedData(IHost app)
 
 app.UseCors(builder =>
 {
-    builder.WithOrigins("http://localhost:4200") 
+    builder.AllowAnyOrigin()
            .AllowAnyHeader()
            .AllowAnyMethod();
+    
 });
 
 if (app.Environment.IsDevelopment())
@@ -125,6 +129,8 @@ if (app.Environment.IsDevelopment())
 
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseRouting();
@@ -132,5 +138,4 @@ app.UseAuthorization();
 app.UseMiddleware<TokenBlacklistMiddleware>();
 
 app.MapControllers();
-
 app.Run();

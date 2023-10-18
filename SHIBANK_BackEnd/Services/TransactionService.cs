@@ -8,11 +8,13 @@ namespace SHIBANK.Services
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IBankAccountRepository _bankAccountRepository;
+        private readonly IUserRepository _userRepository;
 
-        public TransactionService(ITransactionRepository transactionRepository, IBankAccountRepository bankAccountRepository)
+        public TransactionService(ITransactionRepository transactionRepository, IBankAccountRepository bankAccountRepository, IUserRepository userRepository)
         {
             _transactionRepository = transactionRepository;
             _bankAccountRepository = bankAccountRepository;
+            _userRepository = userRepository;
         }
         public IEnumerable<Transaction> GetTransactions()
         {
@@ -54,15 +56,17 @@ namespace SHIBANK.Services
 
         public Transaction CreateTransactionOD(TransactionCreateDto transaction, BankAccount origin, BankAccount destiny)
         {
+            var originUsername = _userRepository.GetUser(origin.UserId).Username;
+            var destinyUsername = _userRepository.GetUser(destiny.UserId).Username;
             var newTransaction = new Transaction
             {
                 Amount = transaction.Amount,
                 Date = DateTime.Now,
                 Message = transaction.Message,
                 OriginAccountNumber = origin.AccountNumber,
-                OriginUsername = origin.User.Username,
+                OriginUsername = originUsername,
                 DestinyAccountNumber = destiny.AccountNumber,
-                DestinyUsername = destiny.User.Username,
+                DestinyUsername = destinyUsername,
                 BankAccountId = origin.Id
             };
 

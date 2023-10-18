@@ -26,7 +26,7 @@ namespace SHIBANK.Controllers
         //Get all users
         [HttpGet]
         [ProducesResponseType(200,Type=typeof(IEnumerable<User>))]
-        public IActionResult GetUser() 
+        public IActionResult GetUsers() 
         {
             var users = _userService.GetUsers();
             var usersDto = _mapper.Map<List<UserDto>>(users);
@@ -69,6 +69,28 @@ namespace SHIBANK.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            return Ok(userDto);
+        }
+
+        //Get actual user
+        [HttpGet("actual/")]
+        [ProducesResponseType(200, Type = typeof(User))]
+        [ProducesResponseType(400)]
+        [Authorize]
+        public IActionResult GetUser()
+        {
+
+            var Id = UserHelper.GetUserIdFromClaim(User);
+
+            if (!_userService.UserExists(Id))
+                return NotFound();
+
+            var user = _userService.GetUser(Id);
+            var userDto = _mapper.Map<UserDto>(user);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
 
             return Ok(userDto);
         }
@@ -122,6 +144,7 @@ namespace SHIBANK.Controllers
                 return BadRequest();
 
             user.Username = updateUserDto.Username;
+            user.Password = updateUserDto.Password;
             user.FirstName = updateUserDto.FirstName;
             user.LastName = updateUserDto.LastName;
             user.Email = updateUserDto.Email;

@@ -1,0 +1,22 @@
+.formfield{
+    margin:20px;
+    height: 80px;
+    width: 250px;
+}
+.container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.containerdeposit{
+    margin-left: 310px;
+
+}
+.button{
+    height: 45px;
+    width: 240px;
+    font-size: 14px;
+    margin : 20px;
+}

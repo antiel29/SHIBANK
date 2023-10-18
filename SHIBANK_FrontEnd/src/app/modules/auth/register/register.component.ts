@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { UserService } from 'src/app/core/services/user.service';
-import { UserRegister } from 'src/app/core/models/user-register.model';
+import { User } from 'src/app/core/models/user.model';
 
 import { NotificationService } from 'src/app/core/shared/notification/notification.service';
 
@@ -11,7 +11,7 @@ import { NotificationService } from 'src/app/core/shared/notification/notificati
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  user : UserRegister = new UserRegister ();
+  user : User = new User ();
 
   constructor(private userService: UserService, private notificationService: NotificationService){}
 

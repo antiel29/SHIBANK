@@ -7,8 +7,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 
 import { SharedModule } from 'src/app/core/shared/shared.module';
+import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input'
+import {MatSelectModule} from '@angular/material/select'; 
+
 
 @NgModule({
     declarations: [AccountsComponent,ProfileComponent,TransactionsComponent],
@@ -16,6 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
       ReactiveFormsModule,
       FormsModule,
       SharedModule,
+      MatButtonModule,
+      MatInputModule,
+      MatSelectModule,
       CommonModule,
       BankingRoutingModule,
     ]

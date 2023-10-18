@@ -1,3 +1,19 @@
 .spacer{
     margin-left:auto;
 }
+.title{
+    position: relative;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    color:rgb(255, 255, 255);
+}
+.button{
+    height: 50px;
+    width: 175px;
+    border-radius: 100%;
+    font-size: 15px;
+    margin-top: 20px;
+    text-align: center;
+    
+}

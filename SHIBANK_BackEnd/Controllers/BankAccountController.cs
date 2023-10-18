@@ -132,7 +132,7 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Deposit(string accountNumber, [FromQuery] decimal amount)
+        public IActionResult Deposit(string accountNumber,[FromQuery] decimal amount)
         {
             if (amount < 0)
                 return BadRequest(ModelState);

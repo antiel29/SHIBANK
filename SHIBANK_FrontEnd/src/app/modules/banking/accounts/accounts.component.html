@@ -1,1 +1,39 @@
-<p>accounts works!</p>
+
+<div class="container">
+<mat-form-field appearance="fill" class="formfield"> 
+    <mat-label>Account</mat-label>
+
+    <mat-select [(ngModel)] = "selectedAccount"(selectionChange)="onAccountSelection($event.value)">
+
+        <mat-option *ngFor="let account of accounts" [value]="account"> 
+            {{ account.accountNumber}}
+        </mat-option>
+
+    </mat-select>
+
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="formfield">
+    <mat-label>Balance</mat-label>
+
+    <input matInput [(ngModel)]="selectedAccount.balance" [disabled]="true">
+    <span matTextPrefix>$&nbsp;</span>
+</mat-form-field>
+
+
+<button mat-flat-button color="primary" (click)="createAccount()" class="button">Create new account</button>
+
+<button mat-flat-button (click)="deleteAccount()" class="button">Delete selected account</button>
+</div>
+
+<div class="containerdeposit">
+<mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input matInput [(ngModel)] = "amount">
+    <span matTextPrefix>$&nbsp;</span>
+</mat-form-field>
+
+<button mat-flat-button (click)="deposit()" class="button" color="primary">Deposit</button>
+</div>
+
+
