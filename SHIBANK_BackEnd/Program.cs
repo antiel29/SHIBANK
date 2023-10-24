@@ -66,9 +66,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-
-
-
+//SQL connection string
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -96,6 +94,7 @@ var app = builder.Build();
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
     SeedData(app);
 
+//Seed
 void SeedData(IHost app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();

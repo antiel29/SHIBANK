@@ -23,3 +23,6 @@ RUN ng build --configuration=production
 EXPOSE 4200
 
 CMD ["ng", "serve", "--port", "4200", "--host", "0.0.0.0"]
+
+#docker build -t shibank_frontend .  
+#docker run -p 4200:4200 shibank_frontend
