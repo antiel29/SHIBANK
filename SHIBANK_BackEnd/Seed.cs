@@ -57,19 +57,19 @@ namespace SHIBANK.Data
                 {
                     new BankAccount
                     {
-                        AccountNumber = "123456789",
+                        AccountNumber = "1234567891",
                         Balance = 10000.0m,
                         UserId = 1 
                     },
                     new BankAccount
                     {
-                        AccountNumber = "987654321",
+                        AccountNumber = "9876543212",
                         Balance = 0.0m,
                         UserId = 1
                     },
                     new BankAccount
                     {
-                        AccountNumber = "555555555",
+                        AccountNumber = "5555555555",
                         Balance = 500.0m,
                         UserId = 2
                     }
@@ -90,8 +90,8 @@ namespace SHIBANK.Data
                         Date = DateTime.Now,
                         OriginUsername = "antiel_ilundayn",
                         DestinyUsername = "pedro_punpun",
-                        OriginAccountNumber = "123456789",
-                        DestinyAccountNumber = "555555555",
+                        OriginAccountNumber = "1234567891",
+                        DestinyAccountNumber = "5555555555",
                         BankAccountId = 1 
                     },            
                 };

@@ -13,11 +13,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Dependency Injection
 builder.Services.AddControllers();
 
 builder.Services.AddTransient<Seed>();
 builder.Services.AddTransient<TokenBlacklistMiddleware>();
-
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IBankAccountRepository,BankAccountRepository>();
 builder.Services.AddScoped<ITransactionRepository,TransactionRepository>();
@@ -25,7 +25,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBankAccountService,BankAccountService>();
 builder.Services.AddScoped<ITransactionService,TransactionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
 builder.Services.AddSingleton<ITokenBlacklistService,TokenBlacklistService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -34,7 +33,7 @@ builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Habilite Swagger with JWT
+//Swagger with JWT(Bearer means only need the token for access) 
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SHIBANK", Version = "v1" });
@@ -105,7 +104,7 @@ void SeedData(IHost app)
         service.SeedData();
     }
 }
-
+//Control access
 app.UseCors(builder =>
 {
     builder.AllowAnyOrigin()
@@ -114,6 +113,7 @@ app.UseCors(builder =>
     
 });
 
+//Swagger
 if (app.Environment.IsDevelopment())
 {
 
@@ -128,13 +128,10 @@ if (app.Environment.IsDevelopment())
 
 }
 
-
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
 app.UseMiddleware<TokenBlacklistMiddleware>();
-
 app.MapControllers();
 app.Run();

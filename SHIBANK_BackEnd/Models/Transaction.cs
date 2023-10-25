@@ -22,9 +22,9 @@ namespace SHIBANK.Models
         public string DestinyAccountNumber { get; set; }
 
 
-        //Relaciones
+        //Relations
         public int BankAccountId { get; set; }
-        public BankAccount BankAccount { get; set;}
+        //public BankAccount BankAccount { get; set;}
 
     }
 }

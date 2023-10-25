@@ -16,8 +16,8 @@ namespace SHIBANK.Models
 
         public string Email { get; set; }
 
-        //Relaciones
-        public ICollection<BankAccount> BankAccounts { get; set; }
+        //Relations
+        //public ICollection<BankAccount> BankAccounts { get; set; }
 
     }
 }

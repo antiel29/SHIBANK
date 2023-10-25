@@ -43,8 +43,6 @@ namespace SHIBANK.Migrations
                     b.HasKey("Id")
                         .HasName("PK_BankAccount");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("BankAccounts");
                 });
 
@@ -88,8 +86,6 @@ namespace SHIBANK.Migrations
                     b.HasKey("Id")
                         .HasName("PK_Transaction");
 
-                    b.HasIndex("BankAccountId");
-
                     b.ToTable("Transactions");
                 });
 
@@ -125,38 +121,6 @@ namespace SHIBANK.Migrations
                         .HasName("PK_Users");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("SHIBANK.Models.BankAccount", b =>
-                {
-                    b.HasOne("SHIBANK.Models.User", "User")
-                        .WithMany("BankAccounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SHIBANK.Models.Transaction", b =>
-                {
-                    b.HasOne("SHIBANK.Models.BankAccount", "BankAccount")
-                        .WithMany("Transactions")
-                        .HasForeignKey("BankAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BankAccount");
-                });
-
-            modelBuilder.Entity("SHIBANK.Models.BankAccount", b =>
-                {
-                    b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("SHIBANK.Models.User", b =>
-                {
-                    b.Navigation("BankAccounts");
                 });
 #pragma warning restore 612, 618
         }
