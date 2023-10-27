@@ -13,6 +13,6 @@ namespace SHIBANK.Dto
         [Required(ErrorMessage = "Amount is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Amount must be non-negative.")]
         public decimal Amount { get; set; }
-        public string Message { get; set; }
+        public string? Message { get; set; }
     }
 }

@@ -98,10 +98,10 @@ void SeedData(IHost app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
-    using (var scope = scopedFactory.CreateScope())
+    using (var scope = scopedFactory?.CreateScope())
     {
-        var service = scope.ServiceProvider.GetService<Seed>();
-        service.SeedData();
+        var service = scope?.ServiceProvider.GetService<Seed>();
+        service?.SeedData();
     }
 }
 //Control access

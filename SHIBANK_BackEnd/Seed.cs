@@ -4,6 +4,13 @@ using System.Linq;
 using SHIBANK.Data;
 using SHIBANK.Models;
 
+//Nugget->
+//Add-Migration InitialCreate
+//Update-Database
+
+//Terminal->
+//dotnet run seeddata
+
 namespace SHIBANK.Data
 {
     public class Seed
