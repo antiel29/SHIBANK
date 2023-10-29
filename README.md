@@ -6,7 +6,6 @@ Homebanking application that allows you to register, open bank accounts, make de
 - **Security:** ASP.Net core Identity.
 - **Authentication:** JWT.
 - **Containerization:** Docker.
-- **Deployment:** Azure.
 - **Frontend:** Angular.
 - **Database:** SQL Server.
 - **ORM:** Entity Framkework.
