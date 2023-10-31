@@ -6,11 +6,7 @@ namespace SHIBANK.Interfaces
 {
     public interface IAuthService
     {
-        AuthResult Authenticate(string username, string password);
-
+        Task<AuthResult> AuthenticateAsync(string username, string password);
         string GenerateToken(User user);
-
-       
-
     }
 }

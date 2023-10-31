@@ -10,9 +10,11 @@ namespace SHIBANK.Models
         [Range(0, int.MaxValue)]
         public decimal Balance { get; set;}
 
+
         //Relations
         public int UserId { get; set; }
-        //public User User { get; set; }
-        //public ICollection<Transaction> Transactions { get; set; }
+        public User? User { get; set; }
+        public ICollection<Transaction>? Transactions { get; set; }
+
     }
 }

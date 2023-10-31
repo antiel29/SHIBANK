@@ -1,6 +1,7 @@
 ﻿using SHIBANK.Data;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SHIBANK.Repository
 {
@@ -12,20 +13,14 @@ namespace SHIBANK.Repository
             _context = context;
         }
 
-        public bool RegisterUser(User user)
-        {
-            _context.Add(user);
-            return Save();
-        }
-
         public User GetUser(int id)
         {
             return _context.Users.Where(u=>u.Id == id).FirstOrDefault();
         }
 
-        public User GetUser(string username)
+        public User GetUser(string userName)
         {
-            return _context.Users.Where(u => u.Username == username).FirstOrDefault();
+            return _context.Users.Where(u => u.NormalizedUserName == userName.ToUpper()).FirstOrDefault();
         }
 
         public ICollection<User> GetUsers()
@@ -43,9 +38,9 @@ namespace SHIBANK.Repository
         {
             return _context.Users.Any(u=>u.Id == id);
         }
-        public bool UserExists(string username) 
+        public bool UserExists(string userName) 
         {
-            return _context.Users.Any(u=>u.Username == username);
+            return _context.Users.Any(u=>u.NormalizedUserName == userName.ToUpper());
         }
 
         public bool UpdateUser(User user)

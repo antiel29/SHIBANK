@@ -230,3 +230,13 @@ C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\AutoMapper.dll
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Swashbuckle.AspNetCore.Annotations.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Scrutor.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Project\SHIBANK\SHIBANK_BackEnd\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

@@ -56,8 +56,8 @@ namespace SHIBANK.Services
 
         public Transaction CreateTransactionOD(TransactionCreateDto transaction, BankAccount origin, BankAccount destiny)
         {
-            var originUsername = _userRepository.GetUser(origin.UserId).Username;
-            var destinyUsername = _userRepository.GetUser(destiny.UserId).Username;
+            var originUsername = _userRepository.GetUser(origin.UserId).UserName;
+            var destinyUsername = _userRepository.GetUser(destiny.UserId).UserName;
             var newTransaction = new Transaction
             {
                 Amount = transaction.Amount,

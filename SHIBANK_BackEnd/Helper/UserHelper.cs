@@ -1,5 +1,4 @@
-﻿using SHIBANK.Models;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace SHIBANK.Helper
 {

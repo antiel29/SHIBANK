@@ -1,16 +1,17 @@
-﻿using SHIBANK.Dto;
+﻿using Microsoft.AspNetCore.Identity;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
-using SHIBANK.Repository;
 
 namespace SHIBANK.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository) 
+        private readonly UserManager<User> _userManager;
+        public UserService(IUserRepository userRepository,UserManager<User> userManager) 
         {
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         public bool DeleteUser(User user)
@@ -33,11 +34,26 @@ namespace SHIBANK.Services
             return _userRepository.GetUsers();
         }
 
-        public bool RegisterUser(User user)
+        public async Task<bool> RegisterUser(User user, string password)
         {
-            return _userRepository.RegisterUser(user);
+            var result = await _userManager.CreateAsync(user,password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "user");
+                return true;
+            }
+            return false;
         }
 
+        public async Task<bool> ChangePassword(User user,string oldPassword,string newPassword)
+        {
+            if(await _userManager.CheckPasswordAsync(user, oldPassword)) 
+            {
+                await _userManager.ChangePasswordAsync(user,oldPassword,newPassword);
+                return true;
+            }
+            return false;
+        }
         public bool UpdateUser(User user)
         {
             return (_userRepository.UpdateUser(user));

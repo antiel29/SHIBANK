@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,8 +7,10 @@ using SHIBANK.Interfaces;
 using SHIBANK.Repository;
 using SHIBANK.Services;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Net;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using SHIBANK.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,12 +34,19 @@ builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
 
-//Swagger with JWT(Bearer means only need the token for access) 
+//Swagger config with Swashbuckle and JWT(Bearer means only need the token for access) 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SHIBANK", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo
+    { 
+        Title = "SHIBANK",
+        Version = "v1" ,
+        Description = "Homebanking application that allows you to register, open bank accounts, make deposits or transactions with others."
+    });
 
-    
+    c.EnableAnnotations();
+    c.ExampleFilters();
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "Jwt Authorization: Bearer token",
@@ -63,7 +71,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 //SQL connection string
 builder.Services.AddDbContext<DataContext>(options =>
@@ -71,11 +79,36 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//Roles with entity framework
+builder.Services.AddIdentity<User,Role>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+    options.AddPolicy("user", policy => policy.RequireRole("user"));
+});
+
+//Password configuration
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8; 
+});
+
 //JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options => { 
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -88,12 +121,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
+
 var app = builder.Build();
 
+//Seed
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
     SeedData(app);
 
-//Seed
 void SeedData(IHost app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
@@ -104,6 +138,7 @@ void SeedData(IHost app)
         service?.SeedData();
     }
 }
+
 //Control access
 app.UseCors(builder =>
 {
@@ -113,7 +148,7 @@ app.UseCors(builder =>
     
 });
 
-//Swagger
+//Swagger and exceptions
 if (app.Environment.IsDevelopment())
 {
 
@@ -126,7 +161,14 @@ if (app.Environment.IsDevelopment())
         c.DocExpansion(DocExpansion.None);
     });
 
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler("/api/error");
+    app.UseHsts();
+}
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

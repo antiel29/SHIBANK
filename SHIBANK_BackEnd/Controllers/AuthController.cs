@@ -23,12 +23,12 @@ namespace SHIBANK.Controllers
 
         //Create a JWT token
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginDto userloginDto)
+        public async Task<IActionResult> Login([FromBody] UserLoginDto userloginDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var authResult = _authService.Authenticate(userloginDto.Username, userloginDto.Password);
+            var authResult = await _authService.AuthenticateAsync(userloginDto.Username, userloginDto.Password);
 
             if (!authResult.Success)
                 return Unauthorized();
@@ -57,8 +57,5 @@ namespace SHIBANK.Controllers
 
             return Ok("Logout successful");
         }
-
-
-
     }
 }
