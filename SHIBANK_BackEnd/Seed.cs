@@ -2,6 +2,7 @@
 using SHIBANK.Models;
 using SHIBANK.Security;
 using SHIBANK.Helper;
+using SHIBANK.Enums;
 
 //Nugget->
 //Add-Migration InitialCreate
@@ -98,19 +99,22 @@ namespace SHIBANK.Data
 
                 if (!context.BankAccounts.Any())
                 {
-
                     var bankAccounts = new List<BankAccount>
                     {
                         new BankAccount
                         {
                             CBU = hashedCbu1,
                             Balance = 10000.0m,
+                            Type = BankAccountType.CheckingAccount,
+                            OpeningDate = DateTime.Now,
                             UserId = 1
                         },
                         new BankAccount
                         {
                             CBU = hashedCbu2,
                             Balance = 500.0m,
+                            Type = BankAccountType.CheckingAccount,
+                            OpeningDate = DateTime.Now,
                             UserId = 2
                         }
                     };
@@ -125,13 +129,12 @@ namespace SHIBANK.Data
                     {
                         new Transaction
                         {
+                            TransactionCode = TransactionHelper.GenerateRandomTransactionCode(),
                             Message = "Giving 500 to punpun for his birthday!",
                             Amount = 500.0m,
                             Date = DateTime.Now,
                             OriginUsername = "antiel_ilundayn",
                             DestinyUsername = "pedro_punpun",
-                            OriginCBU = hashedCbu1,
-                            DestinyCBU = hashedCbu2,
                             BankAccountId = 1,
                         }
                     };
@@ -142,18 +145,20 @@ namespace SHIBANK.Data
                 if (!context.Cards.Any())
                 {
                     var cardNumber1 = CardHelper.GenerateRandomCardNumber();
+                    //var lastFourDigits1 = cardNumber1.Substring(12);
                     var cvc1 = CardHelper.GenerateRandomCvc();
 
                     var cards = new List<Card>
                     {
                         new Card
                         {
-                            Type = Enums.CardType.Debit,
+                            Type = CardType.Debit,
                             CardNumber = Hashing.CalculateHash(cardNumber1),
+                            //LastFourDigits = lastFourDigits1,
                             ExpirationDate = DateTime.UtcNow.AddYears(5),
                             CVC = Hashing.CalculateHash(cvc1),
-                            Limit = 0,
-                            BankAccountId = 1
+                            BankAccountId = 1,
+                            UserId = 1
                         }
                     };
                     context.Cards.AddRange(cards);

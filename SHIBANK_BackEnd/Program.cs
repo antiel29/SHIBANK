@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using SHIBANK.Models;
 using Swashbuckle.AspNetCore.Filters;
+using SHIBANK.Background_Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
+
+//Automatic deposit per month in savings accounts 
+builder.Services.AddHostedService<AutomaticInterestService>();
 
 //Swagger config with Swashbuckle and JWT(Bearer means only need the token for access) 
 builder.Services.AddSwaggerGen(c =>

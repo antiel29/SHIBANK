@@ -35,10 +35,6 @@ namespace SHIBANK.Services
             return _transactionRepository.GetTransactionsByBankAccount(bankAccountId);
         }
 
-        public IEnumerable<Transaction> GetTransactionsByBankAccount(string accountNumber)
-        {
-            return _transactionRepository.GetTransactionsByBankAccount(accountNumber);
-        }
 
         public IEnumerable<Transaction> GetTransactionsByUsername(string username)
         {
@@ -47,11 +43,6 @@ namespace SHIBANK.Services
         public ICollection<Transaction> GetTransactionsRecievedUsername(string username)
         {
             return _transactionRepository.GetTransactionsRecievedUsername(username);
-        }
-
-        public ICollection<Transaction> GetTransactionsRecieved(string accountNumber)
-        {
-            return _transactionRepository.GetTransactionsRecieved(accountNumber);
         }
 
         public Transaction CreateTransactionOD(TransactionCreateDto transaction, BankAccount origin, BankAccount destiny)
@@ -63,9 +54,7 @@ namespace SHIBANK.Services
                 Amount = transaction.Amount,
                 Date = DateTime.Now,
                 Message = transaction.Message,
-                OriginCBU = origin.CBU,
                 OriginUsername = originUsername,
-                DestinyCBU = destiny.CBU,
                 DestinyUsername = destinyUsername,
                 BankAccountId = origin.Id
             };

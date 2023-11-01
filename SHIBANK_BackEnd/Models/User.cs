@@ -11,6 +11,8 @@ namespace SHIBANK.Models
         //Relations
         public ICollection<BankAccount>? BankAccounts { get; set; }
 
+        public ICollection<Card>? Cards { get; set; }
+
     }
     public class Role : IdentityRole<int>{}
 }

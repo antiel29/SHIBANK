@@ -68,6 +68,7 @@ namespace SHIBANK.Controllers
             return Ok(transactionsDto);
         }
 
+        /*
         [HttpGet("send/bank/{accountNumber}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
         [ProducesResponseType(400)]
@@ -81,7 +82,7 @@ namespace SHIBANK.Controllers
 
             return Ok(transactionsDto);
         }
-
+        
         
         [HttpGet("received/bank/{accountNumber}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
@@ -96,7 +97,7 @@ namespace SHIBANK.Controllers
 
             return Ok(transactionsDto);
         }
-
+        */
         [HttpGet("received/user/{username}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
         [ProducesResponseType(400)]
@@ -111,7 +112,7 @@ namespace SHIBANK.Controllers
             return Ok(transactionsDto);
         }
 
-
+        /*
         [HttpGet("user/{username}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
         [ProducesResponseType(400)]
@@ -125,7 +126,7 @@ namespace SHIBANK.Controllers
 
             return Ok(transactionsDto);
         }
-
+        */
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

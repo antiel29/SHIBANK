@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SHIBANK.Models;
 
-
 namespace SHIBANK.Data
 {
     public class DataContext : IdentityDbContext<User, Role, int>
@@ -21,14 +20,27 @@ namespace SHIBANK.Data
                 .HasKey(u => u.Id)
                 .HasName("PK_Users");
 
+            modelBuilder.Entity<BankAccount>()
+                .HasKey(b => b.Id)
+                .HasName("PK_BankAccount");
+
+            modelBuilder.Entity<Transaction>()
+                .HasKey(t => t.Id)
+                .HasName("PK_Transaction");
+
+            modelBuilder.Entity<Card>()
+                .HasKey(t => t.Id)
+                .HasName("PK_Card");
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.BankAccounts)
                 .WithOne(b => b.User)
                 .HasForeignKey(b => b.UserId);
 
-            modelBuilder.Entity<BankAccount>()
-                .HasKey(b => b.Id)
-                .HasName("PK_BankAccount");
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Cards)
+                .WithOne(b => b.User)
+                .HasForeignKey(b => b.UserId);
 
             modelBuilder.Entity<BankAccount>()
                 .HasMany(b => b.Transactions)
@@ -36,25 +48,16 @@ namespace SHIBANK.Data
                 .HasForeignKey(t => t.BankAccountId);
 
             modelBuilder.Entity<BankAccount>()
-                .HasMany(b => b.Cards)
-                .WithOne(t => t.BankAccount)
-                .HasForeignKey(t => t.BankAccountId);
-
-            modelBuilder.Entity<BankAccount>()
                 .Property(b => b.Balance)
                 .HasColumnType("decimal(18, 2)");
 
-            modelBuilder.Entity<Transaction>()
-                .HasKey(t => t.Id)
-                .HasName("PK_Transaction");
+            modelBuilder.Entity<BankAccount>()
+                .Property(b => b.Interest)
+                .HasColumnType("decimal(18, 2)");
 
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.Amount)
                 .HasColumnType("decimal(18, 2)");
-
-            modelBuilder.Entity<Card>()
-                .HasKey(t => t.Id)
-                .HasName("PK_Card");
 
             modelBuilder.Entity<Card>()
                 .Property(t => t.Limit)

@@ -32,20 +32,12 @@ namespace SHIBANK.Repository
             return _context.Transactions.Where(t=> t.BankAccountId == bankAccountId).ToList();
         }
 
-        public ICollection<Transaction> GetTransactionsByBankAccount(string cbu)
-        {
-            return _context.Transactions.Where(t => t.OriginCBU == cbu).ToList();
-        }
 
         public ICollection<Transaction> GetTransactionsByUsername(string username)
         {
             return _context.Transactions.Where(t => t.OriginUsername == username).ToList();
         }
 
-        public ICollection<Transaction> GetTransactionsRecieved(string cbu)
-        {
-            return _context.Transactions.Where(t => t.DestinyCBU == cbu).ToList();
-        }
 
         public ICollection<Transaction> GetTransactionsRecievedUsername(string username)
         {
