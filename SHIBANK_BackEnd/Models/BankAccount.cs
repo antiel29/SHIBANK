@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SHIBANK.Models
+﻿namespace SHIBANK.Models
 {
     public class BankAccount
     {
         public int Id { get; set; }
-        public string AccountNumber { get; set;}
-
-        [Range(0, int.MaxValue)]
+        public string? CBU { get; set;}
         public decimal Balance { get; set;}
 
 
@@ -15,6 +11,8 @@ namespace SHIBANK.Models
         public int UserId { get; set; }
         public User? User { get; set; }
         public ICollection<Transaction>? Transactions { get; set; }
+
+        public ICollection<Card>? Cards { get; set; }
 
     }
 }

@@ -26,7 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBankAccountService,BankAccountService>();
 builder.Services.AddScoped<ITransactionService,TransactionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddSingleton<ITokenBlacklistService,TokenBlacklistService>();
+builder.Services.AddSingleton<TokenBlacklist>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -49,11 +49,14 @@ builder.Services.AddSwaggerGen(c =>
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Jwt Authorization: Bearer token",
+        Description =
+        "**JWT Authorization using Bearer scheme.** \n\n" +
+        "Type 'Bearer' [space] and the token you **received when logging in.** \n\n" +
+        "For example: 'Bearer eyJhbGJ9.eyJzdMCJ9.VI-z8Cu6uuK7M'. \n\n",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
-        Scheme = "bearer"
+        Scheme = "Bearer"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -116,7 +119,7 @@ builder.Services.AddAuthentication(options => {
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 

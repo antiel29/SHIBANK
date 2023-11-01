@@ -11,6 +11,7 @@ namespace SHIBANK.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Card> Cards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +36,11 @@ namespace SHIBANK.Data
                 .HasForeignKey(t => t.BankAccountId);
 
             modelBuilder.Entity<BankAccount>()
+                .HasMany(b => b.Cards)
+                .WithOne(t => t.BankAccount)
+                .HasForeignKey(t => t.BankAccountId);
+
+            modelBuilder.Entity<BankAccount>()
                 .Property(b => b.Balance)
                 .HasColumnType("decimal(18, 2)");
 
@@ -44,6 +50,14 @@ namespace SHIBANK.Data
 
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.Amount)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Card>()
+                .HasKey(t => t.Id)
+                .HasName("PK_Card");
+
+            modelBuilder.Entity<Card>()
+                .Property(t => t.Limit)
                 .HasColumnType("decimal(18, 2)");
 
             //Identity tables

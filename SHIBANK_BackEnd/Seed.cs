@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SHIBANK.Models;
+using SHIBANK.Security;
+using SHIBANK.Helper;
 
 //Nugget->
 //Add-Migration InitialCreate
@@ -21,6 +23,14 @@ namespace SHIBANK.Data
 
         public void SeedData()
         {
+            var cbu1 = BankAccountHelper.GenerateRandomCbu();
+            var cbu2 = BankAccountHelper.GenerateRandomCbu();
+
+            while (cbu1 == cbu2) cbu2 = BankAccountHelper.GenerateRandomCbu();
+
+            var hashedCbu1 = Hashing.CalculateHash(cbu1);
+            var hashedCbu2 = Hashing.CalculateHash(cbu2);
+
             using (var scope = _serviceProvider.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
@@ -93,19 +103,13 @@ namespace SHIBANK.Data
                     {
                         new BankAccount
                         {
-                            AccountNumber = "1234567891",
+                            CBU = hashedCbu1,
                             Balance = 10000.0m,
                             UserId = 1
                         },
                         new BankAccount
                         {
-                            AccountNumber = "9876543212",
-                            Balance = 0.0m,
-                            UserId = 1
-                        },
-                        new BankAccount
-                        {
-                            AccountNumber = "5555555555",
+                            CBU = hashedCbu2,
                             Balance = 500.0m,
                             UserId = 2
                         }
@@ -117,7 +121,6 @@ namespace SHIBANK.Data
 
                 if (!context.Transactions.Any())
                 {
-
                     var transactions = new List<Transaction>
                     {
                         new Transaction
@@ -127,8 +130,8 @@ namespace SHIBANK.Data
                             Date = DateTime.Now,
                             OriginUsername = "antiel_ilundayn",
                             DestinyUsername = "pedro_punpun",
-                            OriginAccountNumber = "1234567891",
-                            DestinyAccountNumber = "5555555555",
+                            OriginCBU = hashedCbu1,
+                            DestinyCBU = hashedCbu2,
                             BankAccountId = 1,
                         }
                     };
@@ -136,6 +139,27 @@ namespace SHIBANK.Data
                     context.Transactions.AddRange(transactions);
                     context.SaveChanges();
                 }
+                if (!context.Cards.Any())
+                {
+                    var cardNumber1 = CardHelper.GenerateRandomCardNumber();
+                    var cvc1 = CardHelper.GenerateRandomCvc();
+
+                    var cards = new List<Card>
+                    {
+                        new Card
+                        {
+                            Type = Enums.CardType.Debit,
+                            CardNumber = Hashing.CalculateHash(cardNumber1),
+                            ExpirationDate = DateTime.UtcNow.AddYears(5),
+                            CVC = Hashing.CalculateHash(cvc1),
+                            Limit = 0,
+                            BankAccountId = 1
+                        }
+                    };
+                    context.Cards.AddRange(cards);
+                    context.SaveChanges();
+                }   
+            
             }
         }
     }

@@ -128,7 +128,7 @@ namespace SHIBANK.Controllers
         [Authorize]
         [SwaggerOperation(Summary = "Update current user",
             Description = "This endpoint allows you to update some or all of the field of the current user.\n" +
-            "To avoid updating a specific field, simply omit it from your request body.\n" +
+            "**To avoid updating a specific field, simply omit it from your request body.**\n" +
             "- Username must have a minimum length of 3 characters,maximum of 50 and be unique.\n" +
             "- First name cannot exceed 50 characters.\n" +
             "- Last name cannot exceed 50 characters.\n" +
@@ -173,7 +173,7 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(404)]
         [Authorize(Roles = "admin")]
         [SwaggerOperation(Summary = "Update user by id (admin)",
-            Description = "To avoid updating a specific field, simply omit it from your request body.\n" +
+            Description = "**To avoid updating a specific field, simply omit it from your request body.**\n" +
             "- Username must have a minimum length of 3 characters,maximum of 50 and be unique.\n" +
             "- First name cannot exceed 50 characters.\n" +
             "- Last name cannot exceed 50 characters.\n" +
@@ -213,7 +213,7 @@ namespace SHIBANK.Controllers
             return NoContent();
         }
 
-        [HttpPut("current/changepassword")]
+        [HttpPut("current/change-password")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [SwaggerOperation(Summary = "Change current user password",
@@ -247,7 +247,7 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [Authorize]
-        [SwaggerOperation(Summary = "Delete current user",Description = "Delete current user with all of his information(accounts and transactions)")]
+        [SwaggerOperation(Summary = "Delete current user",Description = "Delete current user with **all** of his information(accounts and transactions)")]
         public IActionResult DeleteUser() 
         {
             var id = UserHelper.GetUserIdFromClaim(User);
@@ -269,7 +269,7 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [Authorize(Roles ="admin")]
-        [SwaggerOperation(Summary = "Delete user by id (admin)", Description = "Delete user with all of his information(accounts and transactions)")]
+        [SwaggerOperation(Summary = "Delete user by id (admin)", Description = "Delete user with **all** of his information(accounts and transactions)")]
         public IActionResult DeleteUser(int id)
         {
             if (!_userService.UserExists(id))

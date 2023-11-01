@@ -8,11 +8,11 @@ namespace SHIBANK.Interfaces
 
         bool BankAccountExists(int id);
 
-        bool BankAccountExists(string accountNumber);
+        bool BankAccountExists(string cbu);
 
         BankAccount GetBankAccount(int id);
 
-        BankAccount GetBankAccount(string accountNumber);
+        BankAccount GetBankAccount(string cbu);
 
 
         IEnumerable<BankAccount> GetBankAccountsByUser(int userId);

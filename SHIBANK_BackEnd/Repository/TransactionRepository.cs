@@ -32,9 +32,9 @@ namespace SHIBANK.Repository
             return _context.Transactions.Where(t=> t.BankAccountId == bankAccountId).ToList();
         }
 
-        public ICollection<Transaction> GetTransactionsByBankAccount(string accountNumber)
+        public ICollection<Transaction> GetTransactionsByBankAccount(string cbu)
         {
-            return _context.Transactions.Where(t => t.OriginAccountNumber == accountNumber).ToList();
+            return _context.Transactions.Where(t => t.OriginCBU == cbu).ToList();
         }
 
         public ICollection<Transaction> GetTransactionsByUsername(string username)
@@ -42,9 +42,9 @@ namespace SHIBANK.Repository
             return _context.Transactions.Where(t => t.OriginUsername == username).ToList();
         }
 
-        public ICollection<Transaction> GetTransactionsRecieved(string accountNumber)
+        public ICollection<Transaction> GetTransactionsRecieved(string cbu)
         {
-            return _context.Transactions.Where(t => t.DestinyAccountNumber == accountNumber).ToList();
+            return _context.Transactions.Where(t => t.DestinyCBU == cbu).ToList();
         }
 
         public ICollection<Transaction> GetTransactionsRecievedUsername(string username)

@@ -63,9 +63,9 @@ namespace SHIBANK.Services
                 Amount = transaction.Amount,
                 Date = DateTime.Now,
                 Message = transaction.Message,
-                OriginAccountNumber = origin.AccountNumber,
+                OriginCBU = origin.CBU,
                 OriginUsername = originUsername,
-                DestinyAccountNumber = destiny.AccountNumber,
+                DestinyCBU = destiny.CBU,
                 DestinyUsername = destinyUsername,
                 BankAccountId = origin.Id
             };

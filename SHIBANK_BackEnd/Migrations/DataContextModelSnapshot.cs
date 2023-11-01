@@ -133,12 +133,11 @@ namespace SHIBANK.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("CBU")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -149,6 +148,40 @@ namespace SHIBANK.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("BankAccounts");
+                });
+
+            modelBuilder.Entity("SHIBANK.Models.Card", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BankAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CVC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("Limit")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id")
+                        .HasName("PK_Card");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("SHIBANK.Models.Role", b =>
@@ -198,7 +231,7 @@ namespace SHIBANK.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DestinyAccountNumber")
+                    b.Property<string>("DestinyCBU")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -210,7 +243,7 @@ namespace SHIBANK.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OriginAccountNumber")
+                    b.Property<string>("OriginCBU")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -367,6 +400,17 @@ namespace SHIBANK.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SHIBANK.Models.Card", b =>
+                {
+                    b.HasOne("SHIBANK.Models.BankAccount", "BankAccount")
+                        .WithMany("Cards")
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
+                });
+
             modelBuilder.Entity("SHIBANK.Models.Transaction", b =>
                 {
                     b.HasOne("SHIBANK.Models.BankAccount", "BankAccount")
@@ -380,6 +424,8 @@ namespace SHIBANK.Migrations
 
             modelBuilder.Entity("SHIBANK.Models.BankAccount", b =>
                 {
+                    b.Navigation("Cards");
+
                     b.Navigation("Transactions");
                 });
 

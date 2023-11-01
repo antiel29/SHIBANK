@@ -6,10 +6,11 @@ using SHIBANK.Helper;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 using SHIBANK.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SHIBANK.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/bank-accounts")]
     [ApiController]
     [Authorize]
     public class BankAccountController : Controller
@@ -22,24 +23,21 @@ namespace SHIBANK.Controllers
             _mapper = mapper;
         }
 
-        //Get all bank accounts
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccount>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccountDto>))]
+        [SwaggerOperation(Summary = "Get a list of all bank accounts", Description = "This endpoint returns a list of all bank accounts.")]
         public IActionResult GetBankAccount()
         {
             var bankAccounts = _bankAccountService.GetBankAccounts();
             var bankAccountsDto = _mapper.Map<List<BankAccountDto>>(bankAccounts);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             return Ok(bankAccountsDto);
         }
 
-        //Get bank account by id
-        [HttpGet("id/{id}")]
-        [ProducesResponseType(200, Type = typeof(BankAccount))]
-        [ProducesResponseType(400)]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(BankAccountDto))]
+        [ProducesResponseType(404)]
+        [SwaggerOperation(Summary = "Get bank account by id", Description = "Retrieve bank account information by their unique id.")]
         public IActionResult GetBankAccount(int id)
         {
             if (!_bankAccountService.BankAccountExists(id))
@@ -48,41 +46,32 @@ namespace SHIBANK.Controllers
             var bankAccount = _bankAccountService.GetBankAccount(id);
             var bankAccountDto = _mapper.Map<BankAccountDto>(bankAccount);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             return Ok(bankAccountDto);
         }
 
-        //Get bank account by accountNumber
-        [HttpGet("{accountNumber}")]
-        [ProducesResponseType(200, Type = typeof(BankAccount))]
-        [ProducesResponseType(400)]
-        public IActionResult GetBankAccount(string accountNumber)
+        [HttpGet("cbu/{cbu}")]
+        [ProducesResponseType(200, Type = typeof(BankAccountDto))]
+        [ProducesResponseType(404)]
+        [SwaggerOperation(Summary = "Get bank account by cbu", Description = "Retrieve bank account information by their unique cbu.")]
+        public IActionResult GetBankAccount(string cbu)
         {
-            if (!_bankAccountService.BankAccountExists(accountNumber))
+            if (!_bankAccountService.BankAccountExists(cbu))
                 return NotFound();
 
-            var bankAccount = _bankAccountService.GetBankAccount(accountNumber);
+            var bankAccount = _bankAccountService.GetBankAccount(cbu);
             var bankAccountDto = _mapper.Map<BankAccountDto>(bankAccount);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             return Ok(bankAccountDto);
         }
 
         //Get user all bank accounts
         [HttpGet("user/{userId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccount>))]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccountDto>))]
+        [ProducesResponseType(404)]
         public IActionResult GetBankAccountsByUser(int userId)
         {
             var bankAccounts = _bankAccountService.GetBankAccountsByUser(userId);
             var bankAccountsDto = _mapper.Map<List<BankAccountDto>>(bankAccounts);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             return Ok(bankAccountsDto);
         }

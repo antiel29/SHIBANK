@@ -2,6 +2,7 @@
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 
+
 namespace SHIBANK.Repository
 {
     public class BankAccountRepository : IBankAccountRepository
@@ -16,9 +17,9 @@ namespace SHIBANK.Repository
             return _context.BankAccounts.Any(a => a.Id == id);
         }
 
-        public bool BankAccountExists(string accountNumber)
+        public bool BankAccountExists(string cbu)
         {
-            return _context.BankAccounts.Any(a=> a.AccountNumber == accountNumber);
+            return _context.BankAccounts.Any(a=> a.CBU == cbu);
         }
 
         public bool CreateBankAccount(BankAccount bankAccount)
@@ -44,9 +45,9 @@ namespace SHIBANK.Repository
             return _context.BankAccounts.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        public BankAccount GetBankAccount(string accountNumber)
+        public BankAccount GetBankAccount(string cbu)
         {
-            return _context.BankAccounts.Where(a => a.AccountNumber == accountNumber).FirstOrDefault();
+            return _context.BankAccounts.Where(a => a.CBU == cbu).FirstOrDefault();
         }
 
         public ICollection<BankAccount> GetBankAccounts()

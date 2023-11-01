@@ -7,12 +7,12 @@ namespace SHIBANK.Interfaces
         ICollection<BankAccount> GetBankAccounts();
         BankAccount GetBankAccount(int id);
 
-        BankAccount GetBankAccount(string accountNumber);
+        BankAccount GetBankAccount(string cbu);
 
         ICollection<BankAccount> GetBankAccountsByUser(int userId);
 
         bool BankAccountExists(int id);
-        bool BankAccountExists(string accountNumber);
+        bool BankAccountExists(string cbu);
 
         bool CreateBankAccount(BankAccount bankAccount);
 

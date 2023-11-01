@@ -6,7 +6,7 @@ namespace SHIBANK.Dto
     {
         public int Id { get; set; }
 
-        public string AccountNumber { get; set; }
+        public string? CBU { get; set; }
 
         public decimal Balance { get; set; }
 

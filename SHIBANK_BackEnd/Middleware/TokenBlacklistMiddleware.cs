@@ -4,18 +4,18 @@ using SHIBANK.Interfaces;
 
 public class TokenBlacklistMiddleware : IMiddleware
 {
-    private readonly ITokenBlacklistService _tokenBlacklistService;
+    private readonly TokenBlacklist _tokenBlacklist;
 
-    public TokenBlacklistMiddleware(ITokenBlacklistService tokenBlacklistService)
+    public TokenBlacklistMiddleware(TokenBlacklist tokenBlacklist)
     {
-        _tokenBlacklistService = tokenBlacklistService;
+        _tokenBlacklist = tokenBlacklist;
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        if (token != null && _tokenBlacklistService.IsTokenBlacklisted(token))
+        if (token != null && _tokenBlacklist.IsTokenBlacklisted(token))
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await context.Response.WriteAsync("Token is blacklisted or expired.");

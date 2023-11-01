@@ -1,6 +1,8 @@
 ﻿using SHIBANK.Interfaces;
 using SHIBANK.Models;
 using SHIBANK.Repository;
+using SHIBANK.Helper;
+using SHIBANK.Security;
 
 namespace SHIBANK.Services
 {
@@ -21,9 +23,10 @@ namespace SHIBANK.Services
             return _bankAccountRepository.BankAccountExists(id);
         }
 
-        public bool BankAccountExists(string accountNumber)
+        public bool BankAccountExists(string cbu)
         {
-            return _bankAccountRepository.BankAccountExists(accountNumber);
+            string hashedCbu = Hashing.CalculateHash(cbu);
+            return _bankAccountRepository.BankAccountExists(hashedCbu);
         }
 
         public BankAccount GetBankAccount(int id)
@@ -31,9 +34,10 @@ namespace SHIBANK.Services
             return _bankAccountRepository.GetBankAccount(id);
         }
 
-        public BankAccount GetBankAccount(string accountNumber)
+        public BankAccount GetBankAccount(string cbu)
         {
-            return _bankAccountRepository.GetBankAccount(accountNumber);
+            string hashedCbu = Hashing.CalculateHash(cbu);
+            return _bankAccountRepository.GetBankAccount(hashedCbu);
         }
 
         public IEnumerable<BankAccount> GetBankAccountsByUser(int userId)
@@ -43,35 +47,28 @@ namespace SHIBANK.Services
 
         public string GenerateUniqueAccountNumber()
         {
-            string chars = "0123456789";
-            Random random = new Random();
+            string cbu = "";
+            bool isUnique = false;
 
-            string accountNumber;
-            bool isUnique;
-
-            do 
+            while (!isUnique)
             {
-                accountNumber = new string(Enumerable.Repeat(chars, 10)
-                    .Select(s => s[random.Next(s.Length)]).ToArray());
+                cbu = BankAccountHelper.GenerateRandomCbu();
+                isUnique = !_bankAccountRepository.BankAccountExists(cbu);
 
-                isUnique = !_bankAccountRepository.BankAccountExists(accountNumber);
-
-            } 
-            while (!isUnique);
-
-            return accountNumber;
+            }
+            return cbu;
         }
 
 
         public BankAccount CreateBankAccountForUser(int userId)
         {
 
-            string accountNumber = GenerateUniqueAccountNumber();
+            string cbu = GenerateUniqueAccountNumber();
 
             var newBankAccount = new BankAccount
             {
                 UserId = userId,
-                AccountNumber = accountNumber,
+                CBU = cbu,
                 Balance = 0,
             };
 
