@@ -2,44 +2,48 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Dto;
+using SHIBANK.Enums;
+using SHIBANK.Helper;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
-using SHIBANK.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SHIBANK.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/transactions")]
     [ApiController]
-    [Authorize]
     public class TransactionController : Controller
     {
         private readonly IMapper _mapper;
         private readonly ITransactionService _transactionService;
         private readonly IBankAccountService _bankAccountService;
+        private readonly IUserService _userService;
 
-        public TransactionController(IMapper mapper,ITransactionService transactionService, IBankAccountService bankAccountService)
+        public TransactionController(IMapper mapper,ITransactionService transactionService, IBankAccountService bankAccountService, IUserService userService)
         {
             _transactionService = transactionService;
             _mapper = mapper;
             _bankAccountService = bankAccountService;
+            _userService = userService;
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
-        public IActionResult GetTransaction()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TransactionDto>))]
+        [SwaggerOperation(Summary = "Get a list of all transactions", Description = "This endpoint returns a list of all transactions.")]
+        [Authorize]
+        public IActionResult GetTransactions()
         {
             var transactions = _transactionService.GetTransactions();
             var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             return Ok(transactionsDto);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Transaction))]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(TransactionDto))]
+        [ProducesResponseType(404)]
+        [SwaggerOperation(Summary = "Get transaction by id (admin)", Description = "Retrieve transaction information by their unique id.")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetTransaction(int id)
         {
             if (!_transactionService.TransactionExists(id))
@@ -48,120 +52,121 @@ namespace SHIBANK.Controllers
             var transaction = _transactionService.GetTransaction(id);
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             return Ok(transactionDto);
         }
 
-        [HttpGet("bank/{bankAccountId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
-        [ProducesResponseType(400)]
-         public IActionResult GetTransactionsByBankAccount(int bankAccountId)
+        [HttpGet("current/recieved")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TransactionDto>))]
+        [ProducesResponseType(401)]
+        [SwaggerOperation(Summary = "Get current user recieved transactions", Description = "Retrieve all recieved transactions.")]
+        [Authorize]
+        public IActionResult GetRecievedTransactions()
         {
-            var transactions = _transactionService.GetTransactionsByBankAccount(bankAccountId);
-            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
+            var userId = UserHelper.GetUserIdFromClaim(User);
+            var user = _userService.GetUser(userId);
 
-            if (!ModelState.IsValid) 
-             return BadRequest(ModelState);
+            var transactions = _transactionService.GetUserRecievedTransactions(user);
+            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
 
             return Ok(transactionsDto);
         }
 
-        /*
-        [HttpGet("send/bank/{accountNumber}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetTransactionsByBankAccount(string accountNumber)
+        [HttpGet("current/sended")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TransactionDto>))]
+        [ProducesResponseType(401)]
+        [SwaggerOperation(Summary = "Get current user sended transactions", Description = "Retrieve all sended transactions.")]
+        [Authorize]
+        public IActionResult GetSendedTransactions()
         {
-            var transactions = _transactionService.GetTransactionsByBankAccount(accountNumber);
+            var userId = UserHelper.GetUserIdFromClaim(User);
+            var user = _userService.GetUser(userId);
+
+            var transactions = _transactionService.GetUserSendedTransactions(user);
             var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(transactionsDto);
-        }
-        
-        
-        [HttpGet("received/bank/{accountNumber}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetTransactionsRecieved(string accountNumber)
-        {
-            var transactions = _transactionService.GetTransactionsRecieved(accountNumber);
-            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(transactionsDto);
-        }
-        */
-        [HttpGet("received/user/{username}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetTransactionsRecievedUsername(string username)
-        {
-            var transactions = _transactionService.GetTransactionsRecievedUsername(username);
-            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             return Ok(transactionsDto);
         }
 
-        /*
-        [HttpGet("user/{username}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Transaction>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetTransactionsByUsername(string username)
+        [HttpGet("current")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TransactionDto>))]
+        [ProducesResponseType(401)]
+        [SwaggerOperation(Summary = "Get current user transactions", Description = "Retrieve all transactions.")]
+        [Authorize]
+        public IActionResult GetAllTransactions()
         {
-            var transactions = _transactionService.GetTransactionsByBankAccount(username);
-            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
+            var userId = UserHelper.GetUserIdFromClaim(User);
+            var user = _userService.GetUser(userId);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var transactions = _transactionService.GetUserAllTransactions(user);
+            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
 
             return Ok(transactionsDto);
         }
-        */
-        [HttpPost]
+
+        [HttpPost("current/make")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateTransaction([FromBody] TransactionCreateDto transactionCreate)
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [SwaggerOperation(Summary = "Make a transaction",
+            Description = "This endpoint allows you to make a transaction.\n\n" +
+            "The system will automatically select the current user checking account and the destination user checking account.\n\n" +
+            "**Currently, we just admit transactions between chekings accounts**\n\n" +
+            "Message it's opcional")]
+        [Authorize]
+        public IActionResult CreateTransaction([FromBody] TransactionCreateDto transactionCreateDto)
         {
-            if (transactionCreate == null)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var bankAccountOrigin = _bankAccountService.GetBankAccount(transactionCreate.OriginAccountNumber);
-            var bankAccountDestiny = _bankAccountService.GetBankAccount(transactionCreate.DestinyAccountNumber);
+            if (!_userService.UserExists(transactionCreateDto.Username!))
+                return NotFound();
 
-            if (bankAccountOrigin == null || bankAccountDestiny == null)
+            var destinyUser = _userService.GetUser(transactionCreateDto.Username!);
+            var sourceId = UserHelper.GetUserIdFromClaim(User);
+
+            if (destinyUser.Id == sourceId)
+                return BadRequest(ModelState);
+
+            var sourceAccount = _bankAccountService.GetUserBankAccountOfType(sourceId, BankAccountType.Checking);
+            var destinyAccount = _bankAccountService.GetUserBankAccountOfType(destinyUser, BankAccountType.Checking);
+
+            if (sourceAccount == null || destinyAccount == null)
+                return NotFound();
+
+            if (sourceAccount.Balance < transactionCreateDto.Amount)
             {
-                ModelState.AddModelError("", "Bank account doesn't exist");
-                return StatusCode(422, ModelState);
+                ModelState.AddModelError("", "Insufficient funds.");
+                return BadRequest(ModelState);
             }
 
-            if (transactionCreate.OriginAccountNumber == transactionCreate.DestinyAccountNumber)
+            if (!_transactionService.CreateTransaction(sourceAccount, destinyAccount, transactionCreateDto))
             {
-                ModelState.AddModelError("", "Can't transfer the same account");
-                return StatusCode(422, ModelState);
+                ModelState.AddModelError("", "Error while attempting to transfer.");
+                return StatusCode(500, ModelState);
             }
-
-            if (bankAccountOrigin.Balance - transactionCreate.Amount < 0)
-            {
-                ModelState.AddModelError("", "Insuficient founds");
-                return StatusCode(422, ModelState);
-            }
-
-            var transaction = _transactionService.CreateTransactionOD(transactionCreate, bankAccountOrigin, bankAccountDestiny);
-
-            _transactionService.CreateTransaction(transaction);
 
             return NoContent();
         }
 
+        [HttpDelete("{id}/delete")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [SwaggerOperation(Summary = "Delete transaction by id (admin)", Description = "Delete transaction by id.")]
+        [Authorize(Roles = "admin")]
+        public IActionResult DeleteTransaction(int id)
+        {
+            if (!_transactionService.TransactionExists(id))
+                return NotFound();
+
+            var trasaction = _transactionService.GetTransaction(id);
+
+            if (!_transactionService.DeleteTransaction(trasaction))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting transaction.");
+            }
+            return NoContent();
+        }
     }
 }

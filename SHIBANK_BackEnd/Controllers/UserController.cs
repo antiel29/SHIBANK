@@ -74,9 +74,6 @@ namespace SHIBANK.Controllers
         {
             var id = UserHelper.GetUserIdFromClaim(User);
 
-            if (!_userService.UserExists(id))
-                return NotFound();
-
             var user = _userService.GetUser(id);
             var userDto = _mapper.Map<UserDto>(user);
 
@@ -153,12 +150,7 @@ namespace SHIBANK.Controllers
                 return StatusCode(422, ModelState);
             }
 
-            user.UserName = updateUserDto.Username ?? user.UserName;
-            user.FirstName = updateUserDto.FirstName ?? user.FirstName;
-            user.LastName = updateUserDto.LastName ?? user.LastName;
-            user.Email = updateUserDto.Email ?? user.Email;
-
-            if (!_userService.UpdateUser(user))
+            if (!_userService.UpdateUser(user,updateUserDto))
             {
                 ModelState.AddModelError("", "Error while attempting to update user.");
                 return StatusCode(500, ModelState);
@@ -200,12 +192,7 @@ namespace SHIBANK.Controllers
                 return StatusCode(422, ModelState);
             }
 
-            user.UserName = updateUserDto.Username ?? user.UserName;
-            user.FirstName = updateUserDto.FirstName ?? user.FirstName;
-            user.LastName = updateUserDto.LastName ?? user.LastName;
-            user.Email = updateUserDto.Email ?? user.Email;
-
-            if (!_userService.UpdateUser(user))
+            if (!_userService.UpdateUser(user, updateUserDto))
             {
                 ModelState.AddModelError("", "Error while attempting to update user.");
                 return StatusCode(500, ModelState);

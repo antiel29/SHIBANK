@@ -8,17 +8,15 @@ namespace SHIBANK.Interfaces
         IEnumerable <Transaction> GetTransactions();
         Transaction GetTransaction (int id);
         bool TransactionExists(int id);
+        bool TransactionExists(string transactionCode);
+        public string GenerateUniqueTransactionCode();
+        IEnumerable<Transaction> GetUserRecievedTransactions(User user);
 
-        IEnumerable<Transaction> GetTransactionsByBankAccount(int bankAccountId);
+        IEnumerable<Transaction> GetUserSendedTransactions(User user);
 
-        IEnumerable<Transaction> GetTransactionsByUsername(string username);
-
-        ICollection<Transaction> GetTransactionsRecievedUsername(string username);
-
-
-        Transaction CreateTransactionOD(TransactionCreateDto transaction,BankAccount origin, BankAccount destiny);
-
-        bool CreateTransaction(Transaction transaction);
+        bool DeleteTransaction(Transaction transaction);
+        IEnumerable<Transaction> GetUserAllTransactions(User user);
+        bool CreateTransaction(BankAccount origin, BankAccount destiny,TransactionCreateDto transaction);
 
     }
 }

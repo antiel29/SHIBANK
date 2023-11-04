@@ -27,23 +27,24 @@ namespace SHIBANK.Repository
             return _context.Transactions.OrderBy(t => t.Id).ToList();
         }
 
-        public ICollection<Transaction> GetTransactionsByBankAccount(int bankAccountId)
+        public ICollection<Transaction> GetSendedTransactionsByUsername(string username)
         {
-            return _context.Transactions.Where(t=> t.BankAccountId == bankAccountId).ToList();
+            return _context.Transactions.Where(t => t.SourceUsername == username).ToList();
         }
 
-
-        public ICollection<Transaction> GetTransactionsByUsername(string username)
-        {
-            return _context.Transactions.Where(t => t.OriginUsername == username).ToList();
-        }
-
-
-        public ICollection<Transaction> GetTransactionsRecievedUsername(string username)
+        public ICollection<Transaction> GetRecievedTransactionsByUsername(string username)
         {
             return _context.Transactions.Where(t => t.DestinyUsername == username).ToList();
         }
-
+        public ICollection<Transaction> GetAllTransactionsByUsername(string username)
+        {
+            return _context.Transactions.Where(t => t.DestinyUsername == username || t.SourceUsername == username).ToList();
+        }
+        public bool DeleteTransaction(Transaction transaction)
+        {
+            _context.Remove(transaction);
+            return Save();
+        }
         public bool Save()
         {
             var saved = _context.SaveChanges();
@@ -53,6 +54,10 @@ namespace SHIBANK.Repository
         public bool TransactionExists(int id)
         {
             return _context.Transactions.Any(t => t.Id == id);
+        }
+        public bool TransactionExists(string transactionCode)
+        {
+            return _context.Transactions.Any(t => t.TransactionCode == transactionCode);
         }
     }
 }

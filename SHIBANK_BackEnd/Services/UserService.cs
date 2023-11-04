@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SHIBANK.Dto;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 
@@ -54,9 +55,14 @@ namespace SHIBANK.Services
             }
             return false;
         }
-        public bool UpdateUser(User user)
+        public bool UpdateUser(User user,UserUpdateDto userUpdateDto)
         {
-            return (_userRepository.UpdateUser(user));
+            user.UserName = userUpdateDto.Username ?? user.UserName;
+            user.FirstName = userUpdateDto.FirstName ?? user.FirstName;
+            user.LastName = userUpdateDto.LastName ?? user.LastName;
+            user.Email = userUpdateDto.Email ?? user.Email;
+
+            return _userRepository.UpdateUser(user);
         }
 
         public bool UserExists(int id)

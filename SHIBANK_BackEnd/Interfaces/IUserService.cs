@@ -1,4 +1,5 @@
-﻿using SHIBANK.Models;
+﻿using SHIBANK.Dto;
+using SHIBANK.Models;
 
 namespace SHIBANK.Interfaces
 {
@@ -15,7 +16,7 @@ namespace SHIBANK.Interfaces
         Task<bool> RegisterUser(User user,string password);
         Task<bool> ChangePassword(User user, string oldPassword,string newPassword);
 
-        bool UpdateUser(User user);
+        bool UpdateUser(User user,UserUpdateDto userUpdateDto);
         bool DeleteUser(User user);
 
 

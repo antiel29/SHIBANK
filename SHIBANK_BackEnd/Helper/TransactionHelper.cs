@@ -8,7 +8,7 @@
             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             string transactionCode;
 
-            transactionCode = new string(Enumerable.Repeat(chars, 12).
+            transactionCode = new string(Enumerable.Repeat(chars, 30).
                 Select(x => x[random.Next(x.Length)]).ToArray());
 
             return transactionCode;

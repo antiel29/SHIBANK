@@ -1,4 +1,5 @@
 ﻿using SHIBANK.Data;
+using SHIBANK.Enums;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 
@@ -34,9 +35,10 @@ namespace SHIBANK.Repository
             return Save();
         }
 
-        public bool Deposit(BankAccount bankAccount)
+        public bool MoveFunds(BankAccount source, BankAccount destiny)
         {
-            _context.Update(bankAccount);
+            _context.Update(source);
+            _context.Update(destiny);
             return Save();
         }
 
@@ -60,17 +62,19 @@ namespace SHIBANK.Repository
             return _context.BankAccounts.Where(a => a.UserId == userId).ToList();
         }
 
+        public ICollection<BankAccount> GetBankAccountsOfType(BankAccountType type)
+        {
+            return _context.BankAccounts.Where(a => a.Type == type).ToList();
+        }
+        public BankAccount GetUserBankAccountOfType(int userId,BankAccountType type)
+        {
+            return _context.BankAccounts.Where(a => a.Type == type && a.UserId == userId).FirstOrDefault();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
-        }
-
-        public bool Withdraw(BankAccount bankAccount)
-        {
-            _context.Update(bankAccount);
-            return Save();
-
         }
     }
 }

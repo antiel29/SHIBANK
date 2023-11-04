@@ -55,6 +55,10 @@ namespace SHIBANK.Data
                 .Property(b => b.Interest)
                 .HasColumnType("decimal(18, 2)");
 
+            modelBuilder.Entity<BankAccount>()
+                .Property(b => b.InterestGenerating)
+                .HasColumnType("decimal(18, 2)");
+
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.Amount)
                 .HasColumnType("decimal(18, 2)");

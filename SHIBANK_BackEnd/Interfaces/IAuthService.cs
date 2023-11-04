@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using SHIBANK.Models;
-using SHIBANK.Security;
+using SHIBANK.Results;
 
 namespace SHIBANK.Interfaces
 {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Dto;
 using SHIBANK.Interfaces;
-using SHIBANK.Security;
+using SHIBANK.Results;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 

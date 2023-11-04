@@ -4,14 +4,11 @@ namespace SHIBANK.Dto
 {
     public class TransactionCreateDto
     {
-        [Required(ErrorMessage = "Origin account number is required.")]
-        public string OriginAccountNumber { get; set; }
-
-        [Required(ErrorMessage = "Destiny account number is required.")]
-        public string DestinyAccountNumber { get; set; }
+        [Required(ErrorMessage = "Username is required.")]
+        public string? Username { get; set; }
 
         [Required(ErrorMessage = "Amount is required.")]
-        [Range(0, double.MaxValue, ErrorMessage = "Amount must be non-negative.")]
+        [Range(100, double.MaxValue, ErrorMessage = "Amount must be a non-negative value and minimum transfer amount is $100.")]
         public decimal Amount { get; set; }
         public string? Message { get; set; }
     }

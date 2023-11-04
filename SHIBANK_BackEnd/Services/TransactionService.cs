@@ -1,4 +1,5 @@
 ﻿using SHIBANK.Dto;
+using SHIBANK.Helper;
 using SHIBANK.Interfaces;
 using SHIBANK.Models;
 
@@ -25,49 +26,71 @@ namespace SHIBANK.Services
         {
             return _transactionRepository.TransactionExists(id);
         }
+
+        public bool TransactionExists(string transactionCode)
+        {
+            return _transactionRepository.TransactionExists(transactionCode);
+        }
         public Transaction GetTransaction(int id)
         {
             return _transactionRepository.GetTransaction(id);
         }
-
-        public IEnumerable<Transaction> GetTransactionsByBankAccount(int bankAccountId)
+        public string GenerateUniqueTransactionCode()
         {
-            return _transactionRepository.GetTransactionsByBankAccount(bankAccountId);
-        }
+            string transactionCode = "";
+            bool isUnique = false;
 
-
-        public IEnumerable<Transaction> GetTransactionsByUsername(string username)
-        {
-            return _transactionRepository.GetTransactionsByUsername(username);
-        }
-        public ICollection<Transaction> GetTransactionsRecievedUsername(string username)
-        {
-            return _transactionRepository.GetTransactionsRecievedUsername(username);
-        }
-
-        public Transaction CreateTransactionOD(TransactionCreateDto transaction, BankAccount origin, BankAccount destiny)
-        {
-            var originUsername = _userRepository.GetUser(origin.UserId).UserName;
-            var destinyUsername = _userRepository.GetUser(destiny.UserId).UserName;
-            var newTransaction = new Transaction
+            while (!isUnique)
             {
-                Amount = transaction.Amount,
+                transactionCode = TransactionHelper.GenerateRandomTransactionCode();
+                isUnique = !TransactionExists(transactionCode);
+
+            }
+            return transactionCode;
+        }
+
+        public bool CreateTransaction(BankAccount origin, BankAccount destiny,TransactionCreateDto transactionDto)
+        {
+            var sourceUsername = _userRepository.GetUser(origin.UserId).UserName;
+
+            var transaction = new Transaction
+            {
+                TransactionCode = GenerateUniqueTransactionCode(),
+                Message = transactionDto.Message,
+                Amount = transactionDto.Amount,
                 Date = DateTime.Now,
-                Message = transaction.Message,
-                OriginUsername = originUsername,
-                DestinyUsername = destinyUsername,
+                SourceUsername = sourceUsername,
+                DestinyUsername = transactionDto.Username,
                 BankAccountId = origin.Id
             };
 
             origin.Balance -= transaction.Amount;
             destiny.Balance += transaction.Amount;
 
-            return newTransaction;
+            return _transactionRepository.CreateTransaction(transaction); ;
         }
 
-        public bool CreateTransaction(Transaction transaction)
+        public IEnumerable<Transaction> GetUserRecievedTransactions(User user)
         {
-            return _transactionRepository.CreateTransaction(transaction);
+            if (user.UserName == null) return Enumerable.Empty<Transaction>();
+            return _transactionRepository.GetRecievedTransactionsByUsername(user.UserName);
+        }
+
+        public IEnumerable<Transaction> GetUserSendedTransactions(User user)
+        {
+            if (user.UserName == null) return Enumerable.Empty<Transaction>();
+            return _transactionRepository.GetSendedTransactionsByUsername(user.UserName);
+        }
+
+        public IEnumerable<Transaction> GetUserAllTransactions(User user)
+        {
+            if (user.UserName == null) return Enumerable.Empty<Transaction>();
+            return _transactionRepository.GetAllTransactionsByUsername(user.UserName);
+
+        }
+        public bool DeleteTransaction(Transaction transaction)
+        {
+            return _transactionRepository.DeleteTransaction(transaction);
         }
     }
 }

@@ -1,10 +1,15 @@
-﻿using SHIBANK.Models;
+﻿using SHIBANK.Enums;
+using SHIBANK.Models;
 
 namespace SHIBANK.Interfaces
 {
     public interface IBankAccountRepository
     {
         ICollection<BankAccount> GetBankAccounts();
+
+        ICollection<BankAccount> GetBankAccountsOfType(BankAccountType type);
+
+        BankAccount GetUserBankAccountOfType(int userId,BankAccountType type);
         BankAccount GetBankAccount(int id);
 
         BankAccount GetBankAccount(string cbu);
@@ -16,9 +21,7 @@ namespace SHIBANK.Interfaces
 
         bool CreateBankAccount(BankAccount bankAccount);
 
-        bool Withdraw(BankAccount bankAccount);
-
-        bool Deposit(BankAccount bankAccount);
+        bool MoveFunds(BankAccount source,BankAccount destiny);
 
         bool DeleteBankAccount(BankAccount bankAccount);
         bool Save();

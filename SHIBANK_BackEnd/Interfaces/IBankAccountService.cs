@@ -1,10 +1,19 @@
-﻿using SHIBANK.Models;
+﻿using SHIBANK.Enums;
+using SHIBANK.Models;
+using SHIBANK.Results;
 
 namespace SHIBANK.Interfaces
 {
     public interface IBankAccountService
     {
         IEnumerable<BankAccount> GetBankAccounts();
+
+        IEnumerable<BankAccount> GetBankAccountsOfType(BankAccountType type);
+
+        BankAccount GetUserBankAccountOfType(int userId, BankAccountType type);
+
+        BankAccount GetUserBankAccountOfType(User user, BankAccountType type);
+
 
         bool BankAccountExists(int id);
 
@@ -17,12 +26,10 @@ namespace SHIBANK.Interfaces
 
         IEnumerable<BankAccount> GetBankAccountsByUser(int userId);
 
-        bool Deposit(BankAccount bankAccount);
-
-        bool Withdraw(BankAccount bankAccount);
+        Result MoveFunds(BankAccount source, BankAccount destiny,decimal amount);
 
         bool DeleteBankAccount(BankAccount bankAccount);
-        BankAccount CreateBankAccountForUser(int userId);
+        bool CreateBankAccount(int userId,BankAccountType type);
         string GenerateUniqueAccountNumber();
 
 

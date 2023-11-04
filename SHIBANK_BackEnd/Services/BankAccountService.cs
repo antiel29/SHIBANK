@@ -1,8 +1,11 @@
 ﻿using SHIBANK.Interfaces;
 using SHIBANK.Models;
-using SHIBANK.Repository;
 using SHIBANK.Helper;
 using SHIBANK.Security;
+using SHIBANK.Enums;
+using SHIBANK.Results;
+using System.Collections.Generic;
+using System;
 
 namespace SHIBANK.Services
 {
@@ -53,46 +56,87 @@ namespace SHIBANK.Services
             while (!isUnique)
             {
                 cbu = BankAccountHelper.GenerateRandomCbu();
-                isUnique = !_bankAccountRepository.BankAccountExists(cbu);
+                isUnique = !BankAccountExists(cbu);
 
             }
             return cbu;
         }
 
-
-        public BankAccount CreateBankAccountForUser(int userId)
+        public bool CreateBankAccount(int userId,BankAccountType type)
         {
 
             string cbu = GenerateUniqueAccountNumber();
+            string hashedCbu = Hashing.CalculateHash(cbu);
 
             var newBankAccount = new BankAccount
             {
-                UserId = userId,
-                CBU = cbu,
+                CBU = hashedCbu,
                 Balance = 0,
+                Type = type,
+                OpeningDate = DateTime.Now,
+                UserId = userId,
             };
-
-            if (!_bankAccountRepository.CreateBankAccount(newBankAccount))
+            if (type == BankAccountType.Savings)
             {
-                throw new Exception("Error creating a bank account.");
+                newBankAccount.InterestGenerating = 0;
+                newBankAccount.LastInterestDate = DateTime.Now;
+                newBankAccount.Interest = 0.02m;
+                newBankAccount.TransactionLimit = 5;
             }
 
-            return newBankAccount;
+            return _bankAccountRepository.CreateBankAccount(newBankAccount);
         }
 
-        public bool Deposit(BankAccount bankAccount)
+        public Result MoveFunds(BankAccount source,BankAccount destiny,decimal amount)
         {
-            return _bankAccountRepository.Deposit(bankAccount);
-        }
+            if (source.Balance < amount)
+                return new Result(false,"Insufficent funds.");
 
-        public bool Withdraw(BankAccount bankAccount)
-        {
-            return _bankAccountRepository.Withdraw(bankAccount);
+            if ( destiny.Type == BankAccountType.Savings )
+            {
+                if(destiny.TransactionCount == destiny.TransactionLimit)
+                    return new Result(false, "Destiny has reach the transaction limit for this month");
+
+                destiny.TransactionCount++;
+            }
+            if (source.Type == BankAccountType.Savings)
+            {
+                if (source.TransactionCount == source.TransactionLimit)
+                    return new Result(false, "Source has reach the transaction limit for this month");
+
+               source.TransactionCount++;
+            }
+
+            source.Balance -= amount;
+            destiny.Balance += amount;
+
+            var moveResult = _bankAccountRepository.MoveFunds(source, destiny);
+
+            if (!moveResult)
+    {
+                return new Result(false, "Error trying to save");
+            }
+
+            return new Result(true,"");
         }
 
         public bool DeleteBankAccount(BankAccount bankAccount)
         {
             return _bankAccountRepository.DeleteBankAccount(bankAccount);
+        }
+
+        public IEnumerable<BankAccount> GetBankAccountsOfType(BankAccountType type)
+        {
+            return _bankAccountRepository.GetBankAccountsOfType(type);
+        }
+
+        public BankAccount GetUserBankAccountOfType(int userId, BankAccountType type)
+        {
+            return _bankAccountRepository.GetUserBankAccountOfType(userId, type);
+        }
+        public BankAccount GetUserBankAccountOfType(User user, BankAccountType type)
+        {
+            return _bankAccountRepository.GetUserBankAccountOfType(user.Id, type);
         }
 
     }

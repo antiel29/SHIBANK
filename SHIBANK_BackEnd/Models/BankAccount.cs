@@ -11,9 +11,11 @@ namespace SHIBANK.Models
         public DateTime OpeningDate { get; set;}
 
 
-        public decimal Interest { get; set; } = 0;
-        public int TransactionCount { get; set; }
-        public int TransactionLimit { get; set; }
+        public DateTime? LastInterestDate { get; set;}
+        public decimal? InterestGenerating { get; set;}
+        public decimal? Interest { get; set; } 
+        public int? TransactionCount { get; set; }
+        public int? TransactionLimit { get; set; }
 
         //Relations
         public int UserId { get; set; }

@@ -2,31 +2,33 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SHIBANK.Dto;
+using SHIBANK.Enums;
 using SHIBANK.Helper;
 using SHIBANK.Interfaces;
-using SHIBANK.Models;
-using SHIBANK.Services;
+using SHIBANK.Results;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SHIBANK.Controllers
 {
     [Route("api/bank-accounts")]
     [ApiController]
-    [Authorize]
     public class BankAccountController : Controller
     {
         private readonly IBankAccountService _bankAccountService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public BankAccountController( IBankAccountService bankAccountService, IMapper mapper)
+        public BankAccountController( IBankAccountService bankAccountService, IMapper mapper, IUserService userService)
         {
             _bankAccountService = bankAccountService;
             _mapper = mapper;
+            _userService = userService;
         }
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccountDto>))]
-        [SwaggerOperation(Summary = "Get a list of all bank accounts", Description = "This endpoint returns a list of all bank accounts.")]
-        public IActionResult GetBankAccount()
+        [SwaggerOperation(Summary = "Get a list of all bank accounts (admin)", Description = "This endpoint returns a list of all bank accounts.")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetBankAccounts()
         {
             var bankAccounts = _bankAccountService.GetBankAccounts();
             var bankAccountsDto = _mapper.Map<List<BankAccountDto>>(bankAccounts);
@@ -37,7 +39,8 @@ namespace SHIBANK.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(BankAccountDto))]
         [ProducesResponseType(404)]
-        [SwaggerOperation(Summary = "Get bank account by id", Description = "Retrieve bank account information by their unique id.")]
+        [SwaggerOperation(Summary = "Get bank account by id (admin)", Description = "Retrieve bank account information by their unique id.")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetBankAccount(int id)
         {
             if (!_bankAccountService.BankAccountExists(id))
@@ -52,7 +55,8 @@ namespace SHIBANK.Controllers
         [HttpGet("cbu/{cbu}")]
         [ProducesResponseType(200, Type = typeof(BankAccountDto))]
         [ProducesResponseType(404)]
-        [SwaggerOperation(Summary = "Get bank account by cbu", Description = "Retrieve bank account information by their unique cbu.")]
+        [SwaggerOperation(Summary = "Get bank account by cbu (admin)", Description = "Retrieve bank account information by their unique cbu.")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetBankAccount(string cbu)
         {
             if (!_bankAccountService.BankAccountExists(cbu))
@@ -64,131 +68,114 @@ namespace SHIBANK.Controllers
             return Ok(bankAccountDto);
         }
 
-        //Get user all bank accounts
-        [HttpGet("user/{userId}")]
+        [HttpGet("user/{id}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccountDto>))]
         [ProducesResponseType(404)]
-        public IActionResult GetBankAccountsByUser(int userId)
+        [SwaggerOperation(Summary = "Get bank account by user id (admin)", Description = "Retrieve bank account information by their user id.")]
+        [Authorize(Roles = "admin")]
+
+        public IActionResult GetBankAccountsByUser(int id)
         {
-            var bankAccounts = _bankAccountService.GetBankAccountsByUser(userId);
+            if (!_userService.UserExists(id))
+                return NotFound(); 
+
+            var bankAccounts = _bankAccountService.GetBankAccountsByUser(id);
             var bankAccountsDto = _mapper.Map<List<BankAccountDto>>(bankAccounts);
 
             return Ok(bankAccountsDto);
         }
 
-        //Get actual user bank accounts
-        [HttpGet("user")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccount>))]
-        [ProducesResponseType(400)]
+        [HttpGet("current")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<BankAccountDto>))]
+        [ProducesResponseType(401)]
+        [SwaggerOperation(Summary = "Get current logged user bank accounts", Description = "Retrieve bank accounts information for the currently authenticated user.")]
+        [Authorize]
         public IActionResult GetUserBankAccounts()
         {
-            var userId = UserHelper.GetUserIdFromClaim(User);
+            var id = UserHelper.GetUserIdFromClaim(User);
 
-            var bankAccounts = _bankAccountService.GetBankAccountsByUser(userId);
+            var bankAccounts = _bankAccountService.GetBankAccountsByUser(id);
             var bankAccountsDto = _mapper.Map<List<BankAccountDto>>(bankAccounts);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             return Ok(bankAccountsDto);
         }
 
 
-        //Create actual user a new bank account
-        [HttpPost("create")]
+        [HttpPost("current/create")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateBankAccount()
+        [SwaggerOperation(Summary = "Create a new account",
+            Description = "This endpoint allows you to create a new account in the system.\n\n" +
+            "**If no type is selected, a checking account will be created by default.**\n\n " +
+            "The users are limited to owning one account per type.\n\n " +
+            "Savings account generate interest of 2% and have a limit of 5 transactions per month.")]
+        [Authorize]
+        public IActionResult CreateBankAccount(BankAccountType type)
         {
-
             var userId = UserHelper.GetUserIdFromClaim(User);
-            var userBankAccounts = _bankAccountService.GetBankAccountsByUser(userId);
 
-            if (userBankAccounts.Count() >= 5)
+            if (_bankAccountService.GetUserBankAccountOfType(userId,type) != null)
             {
-                ModelState.AddModelError("", "The limit of bank account is 5");
+                ModelState.AddModelError("", $"Currently the limit of {type} accounts is 1");
                 return BadRequest(ModelState);
             }
 
-            var bankAccount = _bankAccountService.CreateBankAccountForUser(userId);
-
-            return NoContent();
-        }
-
-
-        //Deposit in an accountNumber
-        [HttpPut("deposit/{accountNumber}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public IActionResult Deposit(string accountNumber,[FromQuery] decimal amount)
-        {
-            if (amount < 0)
-                return BadRequest(ModelState);
-
-            var existingBankAccount = _bankAccountService.GetBankAccount(accountNumber);
-
-            if (existingBankAccount == null)
-                return NotFound();
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            existingBankAccount.Balance += amount;
-
-            if (!_bankAccountService.Deposit(existingBankAccount))
+            if (!_bankAccountService.CreateBankAccount(userId, type))
             {
-                ModelState.AddModelError("", "Something went wrong trying deposit");
+                ModelState.AddModelError("", "Error while attempting to create the account in the database.");
                 return StatusCode(500, ModelState);
             }
+
             return NoContent();
         }
 
-        //Withdraw in an accountNumber
-        [HttpPut("withdraw/{accountNumber}")]
+
+        [HttpPut("current/move-funds")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Withdraw(string accountNumber, [FromQuery] decimal amount)
+        [SwaggerOperation(Summary = "Move funds between personal accounts",
+            Description = "This endpoint allows you to move a certain amount between your accounts.\n\n" +
+            "The minimum transfer amount is $100.\n\n" +
+            "Must specify the source and destination accounts for the transfer.\n\n")]
+        [Authorize]
+        public IActionResult MoveFunds(BankAccountType source,BankAccountType destiny,[FromQuery] decimal amount)
         {
-            if (amount < 0)
+            if (amount < 100 || source == destiny)
                 return BadRequest(ModelState);
 
-            var existingBankAccount = _bankAccountService.GetBankAccount(accountNumber);
+            var id = UserHelper.GetUserIdFromClaim(User);
 
-            if (existingBankAccount == null)
+            var sourceAccount = _bankAccountService.GetUserBankAccountOfType(id, source);
+            var destinyAccount = _bankAccountService.GetUserBankAccountOfType(id, destiny);
+
+            if (sourceAccount == null || destinyAccount == null)
                 return NotFound();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            Result result = _bankAccountService.MoveFunds(sourceAccount, destinyAccount, amount);
 
-            if(existingBankAccount.Balance < amount)
-                return BadRequest(ModelState);
-
-            existingBankAccount.Balance -= amount;
-
-            if (!_bankAccountService.Withdraw(existingBankAccount))
+            if (!result.Success)
             {
-                ModelState.AddModelError("", "Something went wrong trying withdraw");
-                return StatusCode(500, ModelState);
+                ModelState.AddModelError("", $"{result.Information}");
+                return BadRequest(ModelState);
             }
             return NoContent();
         }
 
-        //Delete a bank account by id
-        [HttpDelete("admin/{Id}")]
+        [HttpDelete("current/{type}/delete")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteBankAccount(int Id)
+        [SwaggerOperation(Summary = "Delete selected current user logged bank account", Description = "Delete bank account with **all** of his transactions")]
+        [Authorize]
+        public IActionResult DeleteBankAccount(BankAccountType type)
         {
-            if (!_bankAccountService.BankAccountExists(Id))
+            var userId = UserHelper.GetUserIdFromClaim(User);
+
+            if (!_bankAccountService.BankAccountExists(userId))
                 return NotFound();
 
-            var bankAccountToDelete = _bankAccountService.GetBankAccount(Id);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var bankAccountToDelete = _bankAccountService.GetUserBankAccountOfType(userId,type);
 
             if (!_bankAccountService.DeleteBankAccount(bankAccountToDelete))
             {
@@ -197,28 +184,18 @@ namespace SHIBANK.Controllers
             return NoContent();
         }
 
-        //Delete a bank account by numberAccount
-        [HttpDelete("{numberAccount}")]
+        [HttpDelete("{id}/delete")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteBankAccount(string numberAccount)
+        [SwaggerOperation(Summary = "Delete bank account by id (admin)", Description = "Delete bank account with **all** of his transactions")]
+        [Authorize(Roles = "admin")]
+        public IActionResult DeleteBankAccount(int id)
         {
-            if (!_bankAccountService.BankAccountExists(numberAccount))
+            if (!_bankAccountService.BankAccountExists(id))
                 return NotFound();
 
-            var bankAccountToDelete = _bankAccountService.GetBankAccount(numberAccount);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var userId = UserHelper.GetUserIdFromClaim(User);
-
-            if (bankAccountToDelete.UserId != userId)
-            {
-                ModelState.AddModelError("", "You don't have a bank account with this number, please try again.");
-                return BadRequest(ModelState);
-            }
+            var bankAccountToDelete = _bankAccountService.GetBankAccount(id);
 
             if (!_bankAccountService.DeleteBankAccount(bankAccountToDelete))
             {
@@ -226,6 +203,5 @@ namespace SHIBANK.Controllers
             }
             return NoContent();
         }
-
     }
 }

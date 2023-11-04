@@ -8,7 +8,7 @@ namespace SHIBANK.Models
         public CardType Type { get; set; }
         public string? CardNumber { get; set; }
 
-        //public string? LastFourDigits { get; set; }
+        public string? LastFourDigits { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string? CVC { get; set; }
         public decimal? Limit { get; set; }

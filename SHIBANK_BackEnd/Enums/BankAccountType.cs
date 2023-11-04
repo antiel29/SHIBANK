@@ -1,8 +1,11 @@
-﻿namespace SHIBANK.Enums
+﻿using System.Text.Json.Serialization;
+
+namespace SHIBANK.Enums
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum BankAccountType
     {
-        CheckingAccount,
-        SavingsAccount
+        Checking,
+        Savings
     }
 }

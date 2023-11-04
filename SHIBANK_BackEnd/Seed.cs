@@ -105,7 +105,7 @@ namespace SHIBANK.Data
                         {
                             CBU = hashedCbu1,
                             Balance = 10000.0m,
-                            Type = BankAccountType.CheckingAccount,
+                            Type = BankAccountType.Checking,
                             OpeningDate = DateTime.Now,
                             UserId = 1
                         },
@@ -113,7 +113,7 @@ namespace SHIBANK.Data
                         {
                             CBU = hashedCbu2,
                             Balance = 500.0m,
-                            Type = BankAccountType.CheckingAccount,
+                            Type = BankAccountType.Checking,
                             OpeningDate = DateTime.Now,
                             UserId = 2
                         }
@@ -133,7 +133,7 @@ namespace SHIBANK.Data
                             Message = "Giving 500 to punpun for his birthday!",
                             Amount = 500.0m,
                             Date = DateTime.Now,
-                            OriginUsername = "antiel_ilundayn",
+                            SourceUsername = "antiel_ilundayn",
                             DestinyUsername = "pedro_punpun",
                             BankAccountId = 1,
                         }
@@ -145,7 +145,7 @@ namespace SHIBANK.Data
                 if (!context.Cards.Any())
                 {
                     var cardNumber1 = CardHelper.GenerateRandomCardNumber();
-                    //var lastFourDigits1 = cardNumber1.Substring(12);
+                    var lastFourDigits1 = cardNumber1.Substring(8);
                     var cvc1 = CardHelper.GenerateRandomCvc();
 
                     var cards = new List<Card>
@@ -154,7 +154,7 @@ namespace SHIBANK.Data
                         {
                             Type = CardType.Debit,
                             CardNumber = Hashing.CalculateHash(cardNumber1),
-                            //LastFourDigits = lastFourDigits1,
+                            LastFourDigits = lastFourDigits1,
                             ExpirationDate = DateTime.UtcNow.AddYears(5),
                             CVC = Hashing.CalculateHash(cvc1),
                             BankAccountId = 1,
