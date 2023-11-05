@@ -13,12 +13,12 @@ namespace SHIBANK.Repository
             _context = context;
         }
 
-        public User GetUser(int id)
+        public User? GetUser(int id)
         {
             return _context.Users.Where(u=>u.Id == id).FirstOrDefault();
         }
 
-        public User GetUser(string userName)
+        public User? GetUser(string userName)
         {
             return _context.Users.Where(u => u.NormalizedUserName == userName.ToUpper()).FirstOrDefault();
         }

@@ -8,8 +8,8 @@ namespace SHIBANK.Interfaces
         IEnumerable<Card> GetCards();
         bool CardExists(int id);
         bool CardExists(string cardNumber);
-        Card GetCard(int id);
-        Card GetUserCardType(int id, CardType type);
+        Card? GetCard(int id);
+        Card? GetUserCardType(int id, CardType type);
 
         (string cardNumber, string LastFourDigits) GenerateUniqueCardNumber();
 

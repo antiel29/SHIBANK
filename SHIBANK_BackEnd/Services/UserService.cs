@@ -20,12 +20,12 @@ namespace SHIBANK.Services
             return _userRepository.DeleteUser(user);
         }
 
-        public User GetUser(int id)
+        public User? GetUser(int id)
         {
             return _userRepository.GetUser(id);
         }
 
-        public User GetUser(string username)
+        public User? GetUser(string username)
         {
             return _userRepository.GetUser(username);
         }

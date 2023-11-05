@@ -65,7 +65,7 @@ namespace SHIBANK.Controllers
             var userId = UserHelper.GetUserIdFromClaim(User);
             var user = _userService.GetUser(userId);
 
-            var transactions = _transactionService.GetUserRecievedTransactions(user);
+            var transactions = _transactionService.GetUserRecievedTransactions(user!);
             var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
 
             return Ok(transactionsDto);
@@ -81,7 +81,7 @@ namespace SHIBANK.Controllers
             var userId = UserHelper.GetUserIdFromClaim(User);
             var user = _userService.GetUser(userId);
 
-            var transactions = _transactionService.GetUserSendedTransactions(user);
+            var transactions = _transactionService.GetUserSendedTransactions(user!);
             var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
 
             return Ok(transactionsDto);
@@ -97,7 +97,7 @@ namespace SHIBANK.Controllers
             var userId = UserHelper.GetUserIdFromClaim(User);
             var user = _userService.GetUser(userId);
 
-            var transactions = _transactionService.GetUserAllTransactions(user);
+            var transactions = _transactionService.GetUserAllTransactions(user!);
             var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
 
             return Ok(transactionsDto);
@@ -125,7 +125,7 @@ namespace SHIBANK.Controllers
             var destinyUser = _userService.GetUser(transactionCreateDto.Username!);
             var sourceId = UserHelper.GetUserIdFromClaim(User);
 
-            if (destinyUser.Id == sourceId)
+            if (destinyUser!.Id == sourceId)
                 return BadRequest(ModelState);
 
             var sourceAccount = _bankAccountService.GetUserBankAccountOfType(sourceId, BankAccountType.Checking);
@@ -162,7 +162,7 @@ namespace SHIBANK.Controllers
 
             var trasaction = _transactionService.GetTransaction(id);
 
-            if (!_transactionService.DeleteTransaction(trasaction))
+            if (!_transactionService.DeleteTransaction(trasaction!))
             {
                 ModelState.AddModelError("", "Something went wrong deleting transaction.");
             }

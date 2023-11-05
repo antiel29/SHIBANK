@@ -6,7 +6,7 @@ namespace SHIBANK.Interfaces
     public interface ITransactionService 
     {
         IEnumerable <Transaction> GetTransactions();
-        Transaction GetTransaction (int id);
+        Transaction? GetTransaction (int id);
         bool TransactionExists(int id);
         bool TransactionExists(string transactionCode);
         public string GenerateUniqueTransactionCode();

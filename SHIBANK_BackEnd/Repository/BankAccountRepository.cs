@@ -42,12 +42,12 @@ namespace SHIBANK.Repository
             return Save();
         }
 
-        public BankAccount GetBankAccount(int id)
+        public BankAccount? GetBankAccount(int id)
         {
             return _context.BankAccounts.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        public BankAccount GetBankAccount(string cbu)
+        public BankAccount? GetBankAccount(string cbu)
         {
             return _context.BankAccounts.Where(a => a.CBU == cbu).FirstOrDefault();
         }
@@ -66,7 +66,7 @@ namespace SHIBANK.Repository
         {
             return _context.BankAccounts.Where(a => a.Type == type).ToList();
         }
-        public BankAccount GetUserBankAccountOfType(int userId,BankAccountType type)
+        public BankAccount? GetUserBankAccountOfType(int userId,BankAccountType type)
         {
             return _context.BankAccounts.Where(a => a.Type == type && a.UserId == userId).FirstOrDefault();
         }

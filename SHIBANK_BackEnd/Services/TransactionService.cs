@@ -31,7 +31,7 @@ namespace SHIBANK.Services
         {
             return _transactionRepository.TransactionExists(transactionCode);
         }
-        public Transaction GetTransaction(int id)
+        public Transaction? GetTransaction(int id)
         {
             return _transactionRepository.GetTransaction(id);
         }
@@ -51,7 +51,7 @@ namespace SHIBANK.Services
 
         public bool CreateTransaction(BankAccount origin, BankAccount destiny,TransactionCreateDto transactionDto)
         {
-            var sourceUsername = _userRepository.GetUser(origin.UserId).UserName;
+            var sourceUsername = _userRepository.GetUser(origin.UserId)!.UserName;
 
             var transaction = new Transaction
             {

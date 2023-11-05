@@ -108,7 +108,7 @@ namespace SHIBANK.Controllers
             Description = "This endpoint allows you to create a new account in the system.\n\n" +
             "**If no type is selected, a checking account will be created by default.**\n\n " +
             "The users are limited to owning one account per type.\n\n " +
-            "Savings account generate interest of 2% and have a limit of 5 transactions per month.")]
+            "Savings accounts generate a 2% interest rate every 30 days and have a limit of 5 transactions within the same 30-day period.\n\n")]
         [Authorize]
         public IActionResult CreateBankAccount(BankAccountType type)
         {
@@ -137,7 +137,8 @@ namespace SHIBANK.Controllers
         [SwaggerOperation(Summary = "Move funds between personal accounts",
             Description = "This endpoint allows you to move a certain amount between your accounts.\n\n" +
             "The minimum transfer amount is $100.\n\n" +
-            "Must specify the source and destination accounts for the transfer.\n\n")]
+            "Must specify the source and destination accounts for the transfer.\n\n" +
+            "Transferring funds to or from a savings account will be considered as one transaction.\n\n ")]
         [Authorize]
         public IActionResult MoveFunds(BankAccountType source,BankAccountType destiny,[FromQuery] decimal amount)
         {
@@ -172,12 +173,12 @@ namespace SHIBANK.Controllers
         {
             var userId = UserHelper.GetUserIdFromClaim(User);
 
-            if (!_bankAccountService.BankAccountExists(userId))
+            var bankAccountToDelete = _bankAccountService.GetUserBankAccountOfType(userId, type);
+
+            if (bankAccountToDelete == null)
                 return NotFound();
 
-            var bankAccountToDelete = _bankAccountService.GetUserBankAccountOfType(userId,type);
-
-            if (!_bankAccountService.DeleteBankAccount(bankAccountToDelete))
+            if (!_bankAccountService.DeleteBankAccount(bankAccountToDelete!))
             {
                 ModelState.AddModelError("", "Something went wrong deleting bank account");
             }
@@ -197,7 +198,7 @@ namespace SHIBANK.Controllers
 
             var bankAccountToDelete = _bankAccountService.GetBankAccount(id);
 
-            if (!_bankAccountService.DeleteBankAccount(bankAccountToDelete))
+            if (!_bankAccountService.DeleteBankAccount(bankAccountToDelete!))
             {
                 ModelState.AddModelError("", "Something went wrong deleting bank account");
             }

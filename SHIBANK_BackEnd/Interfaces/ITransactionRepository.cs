@@ -5,7 +5,7 @@ namespace SHIBANK.Interfaces
     public interface ITransactionRepository
     {
         ICollection<Transaction> GetTransactions();
-        Transaction GetTransaction(int id);
+        Transaction? GetTransaction(int id);
         ICollection<Transaction> GetSendedTransactionsByUsername(string username);
         ICollection<Transaction> GetRecievedTransactionsByUsername(string username);
         ICollection<Transaction> GetAllTransactionsByUsername(string username);

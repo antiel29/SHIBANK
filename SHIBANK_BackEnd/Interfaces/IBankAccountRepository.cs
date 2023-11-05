@@ -9,10 +9,10 @@ namespace SHIBANK.Interfaces
 
         ICollection<BankAccount> GetBankAccountsOfType(BankAccountType type);
 
-        BankAccount GetUserBankAccountOfType(int userId,BankAccountType type);
-        BankAccount GetBankAccount(int id);
+        BankAccount? GetUserBankAccountOfType(int userId,BankAccountType type);
+        BankAccount? GetBankAccount(int id);
 
-        BankAccount GetBankAccount(string cbu);
+        BankAccount? GetBankAccount(string cbu);
 
         ICollection<BankAccount> GetBankAccountsByUser(int userId);
 

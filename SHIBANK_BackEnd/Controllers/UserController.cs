@@ -143,14 +143,14 @@ namespace SHIBANK.Controllers
             var user = _userService.GetUser(id);
 
             if (updateUserDto.Username != null &&
-                updateUserDto.Username != user.UserName &&
+                updateUserDto.Username != user!.UserName &&
                 _userService.UserExists(updateUserDto.Username))
             {
                 ModelState.AddModelError("", "Username already exists. Please choose a different username.");
                 return StatusCode(422, ModelState);
             }
 
-            if (!_userService.UpdateUser(user,updateUserDto))
+            if (!_userService.UpdateUser(user!,updateUserDto))
             {
                 ModelState.AddModelError("", "Error while attempting to update user.");
                 return StatusCode(500, ModelState);
@@ -185,14 +185,14 @@ namespace SHIBANK.Controllers
             var user = _userService.GetUser(id);
 
             if (updateUserDto.Username != null &&
-                updateUserDto.Username != user.UserName &&
+                updateUserDto.Username != user!.UserName &&
                 _userService.UserExists(updateUserDto.Username))
             {
                 ModelState.AddModelError("", "Username already exists. Please choose a different username.");
                 return StatusCode(422, ModelState);
             }
 
-            if (!_userService.UpdateUser(user, updateUserDto))
+            if (!_userService.UpdateUser(user!, updateUserDto))
             {
                 ModelState.AddModelError("", "Error while attempting to update user.");
                 return StatusCode(500, ModelState);
@@ -217,7 +217,7 @@ namespace SHIBANK.Controllers
             var id = UserHelper.GetUserIdFromClaim(User);
             var user = _userService.GetUser(id);
 
-            var success = _userService.ChangePassword(user, changePasswordDto.oldPassword!, changePasswordDto.newPassword!);
+            var success = _userService.ChangePassword(user!, changePasswordDto.oldPassword!, changePasswordDto.newPassword!);
 
             if (!success.Result)
             {
@@ -244,7 +244,7 @@ namespace SHIBANK.Controllers
 
             var user = _userService.GetUser(id);
 
-            if (!_userService.DeleteUser(user))
+            if (!_userService.DeleteUser(user!))
             {
                 ModelState.AddModelError("", "Something went wrong deleting user");
             }
@@ -264,7 +264,7 @@ namespace SHIBANK.Controllers
 
             var user = _userService.GetUser(id);
 
-            if (!_userService.DeleteUser(user))
+            if (!_userService.DeleteUser(user!))
             {
                 ModelState.AddModelError("", "Something went wrong deleting user");
             }

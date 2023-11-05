@@ -10,16 +10,16 @@ namespace SHIBANK.Interfaces
 
         IEnumerable<BankAccount> GetBankAccountsOfType(BankAccountType type);
 
-        BankAccount GetUserBankAccountOfType(int userId, BankAccountType type);
+        BankAccount? GetUserBankAccountOfType(int userId, BankAccountType type);
 
 
         bool BankAccountExists(int id);
 
         bool BankAccountExists(string cbu);
 
-        BankAccount GetBankAccount(int id);
+        BankAccount? GetBankAccount(int id);
 
-        BankAccount GetBankAccount(string cbu);
+        BankAccount? GetBankAccount(string cbu);
 
 
         IEnumerable<BankAccount> GetBankAccountsByUser(int userId);

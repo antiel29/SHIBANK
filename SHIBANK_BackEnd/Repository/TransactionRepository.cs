@@ -17,7 +17,7 @@ namespace SHIBANK.Repository
             return Save();
         }
 
-        public Transaction GetTransaction(int id)
+        public Transaction? GetTransaction(int id)
         {
             return _context.Transactions.Where(t => t.Id == id).FirstOrDefault();
         }

@@ -57,7 +57,7 @@ namespace SHIBANK.Services
             if(type == CardType.Debit)
             {
                 var bankAccount = _bankAccountRepository.GetUserBankAccountOfType(id, BankAccountType.Checking);
-                card.BankAccountId = bankAccount.Id;
+                card.BankAccountId = bankAccount!.Id;
             }
             if(type == CardType.Credit)
             {
@@ -67,7 +67,7 @@ namespace SHIBANK.Services
             return _cardRepository.CreateCard(card);
         }
 
-        public Card GetCard(int id)
+        public Card? GetCard(int id)
         {
             return _cardRepository.GetCard(id);
         }
@@ -81,7 +81,7 @@ namespace SHIBANK.Services
             return _cardRepository.GetUserCards(id);
         }
 
-        public Card GetUserCardType(int id, CardType type)
+        public Card? GetUserCardType(int id, CardType type)
         {
             return _cardRepository.GetUserCardType(id, type);
         }

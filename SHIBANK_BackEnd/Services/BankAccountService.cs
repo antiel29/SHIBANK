@@ -32,12 +32,12 @@ namespace SHIBANK.Services
             return _bankAccountRepository.BankAccountExists(hashedCbu);
         }
 
-        public BankAccount GetBankAccount(int id)
+        public BankAccount? GetBankAccount(int id)
         {
             return _bankAccountRepository.GetBankAccount(id);
         }
 
-        public BankAccount GetBankAccount(string cbu)
+        public BankAccount? GetBankAccount(string cbu)
         {
             string hashedCbu = Hashing.CalculateHash(cbu);
             return _bankAccountRepository.GetBankAccount(hashedCbu);
@@ -78,6 +78,7 @@ namespace SHIBANK.Services
             };
             if (type == BankAccountType.Savings)
             {
+                newBankAccount.TransactionCount = 0;
                 newBankAccount.InterestGenerating = 0;
                 newBankAccount.LastInterestDate = DateTime.Now;
                 newBankAccount.Interest = 0.02m;
@@ -130,7 +131,7 @@ namespace SHIBANK.Services
             return _bankAccountRepository.GetBankAccountsOfType(type);
         }
 
-        public BankAccount GetUserBankAccountOfType(int userId, BankAccountType type)
+        public BankAccount? GetUserBankAccountOfType(int userId, BankAccountType type)
         {
             return _bankAccountRepository.GetUserBankAccountOfType(userId, type);
         }

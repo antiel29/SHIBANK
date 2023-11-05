@@ -35,7 +35,7 @@ namespace SHIBANK.Repository
             return Save();
         }
 
-        public Card GetCard(int id)
+        public Card? GetCard(int id)
         {
             return _context.Cards.Where(c => c.Id == id).FirstOrDefault();
         }
@@ -49,7 +49,7 @@ namespace SHIBANK.Repository
             return _context.Cards.Where(c => c.UserId == id).ToList();
         }
 
-        public Card GetUserCardType(int id, CardType type)
+        public Card? GetUserCardType(int id, CardType type)
         {
             return _context.Cards.Where(c => c.UserId == id && c.Type == type).FirstOrDefault();
         }
