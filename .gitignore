@@ -1,0 +1,10 @@
+# Entity Framework Core Migrations
+/Migrations/
+
+#Visual studio
+/.vs/
+
+
+# .NET Core
+obj/
+bin/
