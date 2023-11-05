@@ -10,7 +10,7 @@ namespace SHIBANK.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService)

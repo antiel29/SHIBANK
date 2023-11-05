@@ -134,10 +134,6 @@ namespace SHIBANK.Services
         {
             return _bankAccountRepository.GetUserBankAccountOfType(userId, type);
         }
-        public BankAccount GetUserBankAccountOfType(User user, BankAccountType type)
-        {
-            return _bankAccountRepository.GetUserBankAccountOfType(user.Id, type);
-        }
 
     }
 }

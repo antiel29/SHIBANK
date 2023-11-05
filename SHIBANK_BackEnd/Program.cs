@@ -23,10 +23,13 @@ builder.Services.AddTransient<TokenBlacklistMiddleware>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IBankAccountRepository,BankAccountRepository>();
 builder.Services.AddScoped<ITransactionRepository,TransactionRepository>();
+builder.Services.AddScoped<ICardRepository,CardRepository>();
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBankAccountService,BankAccountService>();
 builder.Services.AddScoped<ITransactionService,TransactionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddSingleton<TokenBlacklist>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

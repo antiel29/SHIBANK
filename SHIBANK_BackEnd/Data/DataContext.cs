@@ -67,6 +67,10 @@ namespace SHIBANK.Data
                 .Property(t => t.Limit)
                 .HasColumnType("decimal(18, 2)");
 
+            modelBuilder.Entity<Card>()
+                .Property(t => t.AmountSpentThisMonth)
+                .HasColumnType("decimal(18, 2)");
+
             //Identity tables
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");

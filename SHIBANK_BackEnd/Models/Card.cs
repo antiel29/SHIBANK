@@ -12,6 +12,8 @@ namespace SHIBANK.Models
         public DateTime ExpirationDate { get; set; }
         public string? CVC { get; set; }
         public decimal? Limit { get; set; }
+        public decimal? AmountSpentThisMonth { get; set; }
+
 
         //Relations
         public int UserId { get; set; }

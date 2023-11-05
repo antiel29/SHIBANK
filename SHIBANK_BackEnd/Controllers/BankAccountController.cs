@@ -12,7 +12,7 @@ namespace SHIBANK.Controllers
 {
     [Route("api/bank-accounts")]
     [ApiController]
-    public class BankAccountController : Controller
+    public class BankAccountController : ControllerBase
     {
         private readonly IBankAccountService _bankAccountService;
         private readonly IUserService _userService;

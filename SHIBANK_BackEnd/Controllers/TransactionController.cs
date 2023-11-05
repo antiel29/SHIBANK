@@ -12,7 +12,7 @@ namespace SHIBANK.Controllers
 {
     [Route("api/transactions")]
     [ApiController]
-    public class TransactionController : Controller
+    public class TransactionController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ITransactionService _transactionService;
@@ -129,7 +129,7 @@ namespace SHIBANK.Controllers
                 return BadRequest(ModelState);
 
             var sourceAccount = _bankAccountService.GetUserBankAccountOfType(sourceId, BankAccountType.Checking);
-            var destinyAccount = _bankAccountService.GetUserBankAccountOfType(destinyUser, BankAccountType.Checking);
+            var destinyAccount = _bankAccountService.GetUserBankAccountOfType(destinyUser.Id, BankAccountType.Checking);
 
             if (sourceAccount == null || destinyAccount == null)
                 return NotFound();

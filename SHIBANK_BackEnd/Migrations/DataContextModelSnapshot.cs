@@ -179,6 +179,9 @@ namespace SHIBANK.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal?>("AmountSpentThisMonth")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<int>("BankAccountId")
                         .HasColumnType("int");
 

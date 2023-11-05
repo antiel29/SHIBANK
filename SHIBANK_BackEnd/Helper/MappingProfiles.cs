@@ -16,6 +16,9 @@ namespace SHIBANK.Helper
 
             CreateMap<Transaction, TransactionDto>();
             CreateMap<TransactionCreateDto, Transaction>();
+
+            CreateMap<Card, CardDto>()
+                .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate.ToString("MM/yy"))) ;
         }
     }
 }

@@ -12,8 +12,6 @@ namespace SHIBANK.Interfaces
 
         BankAccount GetUserBankAccountOfType(int userId, BankAccountType type);
 
-        BankAccount GetUserBankAccountOfType(User user, BankAccountType type);
-
 
         bool BankAccountExists(int id);
 
