@@ -27,9 +27,9 @@ A Homebanking REST API that enables user registration, account and card creation
 - **Automatic Interest Generation Service:** Automatically calculates and adds interest to saving accounts.
 
 ## Requirements
-- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0): Ensure you have the latest .NET version installed to run the backend.
-- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads): You will need SQL Server to store and manage data.
-- [Docker](https://www.docker.com/get-started): If you plan to containerize the application for deployment.
+- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+- [Docker](https://www.docker.com/get-started)(only if you plan to containerize the application for deployment).
   
 ## Installation
 
