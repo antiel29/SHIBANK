@@ -1,11 +1,54 @@
-#SHIBANK_BackEnd ignore
+# SHIBANK_BackEnd ignore
+
 # Entity Framework Core Migrations
 SHIBANK_BackEnd/Migrations/
 
 #Visual studio
 SHIBANK_BackEnd/.vs/
 
-
 # .NET Core
 SHIBANK_BackEnd/obj/
 SHIBANK_BackEnd/bin/
+
+# SHIBANK_FrontEnd ignore
+
+# Compiled output
+SHIBANK_FrontEnd/dist
+SHIBANK_FrontEnd/tmp
+SHIBANK_FrontEnd/out-tsc
+SHIBANK_FrontEnd/bazel-out
+
+# Node.js modules and errors
+SHIBANK_FrontEnd/node_modules
+SHIBANK_FrontEnd/npm-debug.log
+SHIBANK_FrontEnd/yarn-error.log
+
+# IDEs and editors
+SHIBANK_FrontEnd/.idea/
+SHIBANK_FrontEnd/.project
+SHIBANK_FrontEnd/.classpath
+SHIBANK_FrontEnd/.c9/
+SHIBANK_FrontEnd/*.launch
+SHIBANK_FrontEnd/.settings/
+SHIBANK_FrontEnd/*.sublime-workspace
+
+# Visual Studio Code
+SHIBANK_FrontEnd/.vscode/*
+SHIBANK_FrontEnd/!.vscode/settings.json
+SHIBANK_FrontEnd/!.vscode/tasks.json
+SHIBANK_FrontEnd/!.vscode/launch.json
+SHIBANK_FrontEnd/!.vscode/extensions.json
+SHIBANK_FrontEnd/.history/*
+
+# Miscellaneous
+SHIBANK_FrontEnd/.angular/cache
+SHIBANK_FrontEnd/.sass-cache/
+SHIBANK_FrontEnd/connect.lock
+SHIBANK_FrontEnd/coverage
+SHIBANK_FrontEnd/libpeerconnection.log
+SHIBANK_FrontEnd/testem.log
+SHIBANK_FrontEnd/typings
+
+# System files
+.DS_Store
+Thumbs.db
