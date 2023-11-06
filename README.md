@@ -33,12 +33,21 @@ A Homebanking REST API that enables user registration, account and card creation
   
 ## Installation
 
-# Clone the repository
+**Clone the repository**
 Clone the repository to your local machine:
 ```bash
-   git clone https://github.com/antiel29/SHIBANK.git
+git clone https://github.com/antiel29/SHIBANK.git
+```
+Navigate to the backend directory
+```bash
+cd SHIBANK/SHIBANK_BackEnd
+```
+Install the dependacys
+```bash
+dotnet restore
 ```
 
 ## Configuration
+
 
 ## Usage
