@@ -1,10 +1,11 @@
+#SHIBANK_BackEnd ignore
 # Entity Framework Core Migrations
-/Migrations/
+SHIBANK_BackEnd/Migrations/
 
 #Visual studio
-/.vs/
+SHIBANK_BackEnd/.vs/
 
 
 # .NET Core
-obj/
-bin/
+SHIBANK_BackEnd/obj/
+SHIBANK_BackEnd/bin/
