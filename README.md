@@ -60,14 +60,14 @@ dotnet restore
 
 **Seeding Data**
 
-1. In the backend directory, use the NuGet Package Manager Console to perform the following:
+1. In the backend directory, perform the following:
 
 ```bash
-Add-Migration InitialCreate
+dotnet ef Add-Migration InitialCreate
 ```
 
 ```bash
-Update-Database
+dotnet ef Update-Database
 ```
 
 ```bash
