@@ -1,5 +1,5 @@
 # SHIBANK - Secure Home Investment Bank
-A Homebanking REST API that enables user registration, account and card creation, fund transfers, and secure transactions with others.
+SHIBANK is a Homebanking REST API that enables user registration, account and card creation, fund transfers, and secure transactions with others.
 
 ## Table of Contents
 - [Technologies](#technologies)
@@ -10,21 +10,21 @@ A Homebanking REST API that enables user registration, account and card creation
 
 ## Technologies
 - **Backend:** Developed using **.NET 7.0**.
-- **Security:** Utilizing **ASP.Net Core Identity** for user roles managment and authentication.
-- **Authentication:** Implementing **JWT** for secure user authentication using Bearer type providing access to api.
-- **Containerization:** Using **Docker** to containerize the app.
+- **Security:** Utilizes **ASP.Net Core Identity** for user role managment and authentication.
+- **Authentication:** Implements **JWT** for secure user authentication, providing access to the API with Bearer tokens.
+- **Containerization:** Utilizes **Docker** for containerizing the app.
 - **Frontend:** In progress, being developed with **Angular**.
-- **Database:** Storing data in **SQL Server**.
-- **ORM:** Employing **Entity Framework** as the Object-Relational framework for database interaction.
-- **Queries:** Using **LINQ** for quering and manipulating data.
+- **Database:** Stores data in **SQL Server**.
+- **ORM:** Employs **Entity Framework** as the Object-Relational framework for database interaction.
+- **Queries:** Using **LINQ** for querying and manipulating data.
 
 ## Features
 - **Swagger Documentation:** Integrated with Swashbuckle.
-- **Seed:** System for seeding initial data and try the app.
-- **Personalized Token Logout Middleware(Token Blacklist):** Allow users log out tokens stay in unauthorized access.
+- **Seed:** Provides a system for seeding initial data.
+- **Personalized Token Logout Middleware(Token Blacklist):** Allow users to log out and invalidate tokens to prevent unauthorized access.
 - **Role-Based Authorization:** Differentiating between admin and user roles with distinct permissions.
 - **Automatic Interest Generation Service:** Automatically calculates and adds interest to saving accounts.
-- **Self Signed Certificate:** For https.
+- **Self Signed Certificate:** Supports HTTPS.
 
 ## Requirements
 - [.NET 7.0](https://dotnet.microsoft.com/en-us/download)
@@ -34,42 +34,52 @@ A Homebanking REST API that enables user registration, account and card creation
 ## Configuration
 
 **Clone the repository**
-1. Clone the repository to your local machine
+
+1. Clone the repository to your local machine.
 ```bash
 git clone https://github.com/antiel29/SHIBANK.git
 ```
+
 **Install dependacys**
-1. Navigate to the backend directory
+
+1. Navigate to the backend directory.
 ```bash
 cd SHIBANK/SHIBANK_BackEnd
 ```
-2. Install the dependacys
+
+2. Install the necessary dependencies.
 ```bash
 dotnet restore
 ```
-**Configure Certificate,JWT and Database**
-1. Open the `appsettings.json` file and update the database connection string to point to your SQL server instance.
 
-2. In the same file,configure the JWT settings such as issuer,audience,key.
+**Configure Certificate, JWT, and Database**
+1. Open the `appsettings.json` file and update the following settings:
+- Database connection string to point to your SQL server instance.
+- JWT settings, including issuer, audience, and key.
+- Kestrel settings, such as port and URL.
 
-3. In the same file, configure the Kestrel settings such as port and url.
+**Seeding Data**
 
-**Seeding**
+1. In the backend directory, use the NuGet Package Manager Console to perform the following:
 
-1. Navigate to the backend directory and  in the nugget terminal
 ```bash
 Add-Migration InitialCreate
 ```
+
 ```bash
 Update-Database
 ```
+
 ```bash
 dotnet run seeddata
 ```
 
 ## Usage
-1. Run in the SHIBANK_Backend directory.
+
+1. Run the application from the SHIBANK_Backend directory.
+
 ```bash
 dotnet run
 ```
+
 2. Access the API documentation at http://localhost:yourport/swagger to explore the available endpoints and make requests.
