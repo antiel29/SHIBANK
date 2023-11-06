@@ -29,10 +29,15 @@ A Homebanking REST API that enables user registration, account and card creation
 ## Requirements
 - [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-- [Docker](https://www.docker.com/get-started)(only if you plan to containerize the application for deployment).
+- [Docker](https://www.docker.com/get-started) (Optional: only if you plan to containerize).
   
 ## Installation
 
+# Clone the repository
+Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/antiel29/SHIBANK.git
+   
 ## Configuration
 
 ## Usage
