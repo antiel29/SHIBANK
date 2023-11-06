@@ -32,13 +32,9 @@ SHIBANK_FrontEnd/*.launch
 SHIBANK_FrontEnd/.settings/
 SHIBANK_FrontEnd/*.sublime-workspace
 
-# Visual Studio Code
-SHIBANK_FrontEnd/.vscode/*
-SHIBANK_FrontEnd/!.vscode/settings.json
-SHIBANK_FrontEnd/!.vscode/tasks.json
-SHIBANK_FrontEnd/!.vscode/launch.json
-SHIBANK_FrontEnd/!.vscode/extensions.json
-SHIBANK_FrontEnd/.history/*
+# Visual studio code
+SHIBANK_FrontEnd/.vscode/
+SHIBANK_FrontEnd/.history/
 
 # Miscellaneous
 SHIBANK_FrontEnd/.angular/cache
