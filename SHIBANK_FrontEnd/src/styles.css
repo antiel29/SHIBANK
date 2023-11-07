@@ -1,13 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { 
+
+body 
+{ 
     margin: 0;
     font-family: Roboto,"Helvetica Neue", sans-serif; 
     background:  linear-gradient(to bottom, #c1c1c1, #ffffff); 
 }
 
-.login-page {
+.login-page 
+{
     background-image: url('assets/images/shibalogin.png');
     background-size:cover;
     background-position: center center;

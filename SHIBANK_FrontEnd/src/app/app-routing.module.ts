@@ -5,7 +5,8 @@ import { AuthGuard } from './core/authentication/auth-guard.service';
 import { HomeComponent } from './modules/home/home.component';
 import { AuthGuardHome } from './core/authentication/auth-guard-home.service';
 
-const routes: Routes = [
+const routes: Routes = 
+[
   {path : 'auth',
   canActivate:[AuthGuardHome],
    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
@@ -19,13 +20,16 @@ const routes: Routes = [
   {path: '**', redirectTo: 'home'},
 ]
 
-@NgModule({
+@NgModule
+({
   declarations: [],
-  imports: [
+  imports: 
+  [
     CommonModule,
     RouterModule.forRoot(routes),
   ],
-  exports:[
+  exports:
+  [
     RouterModule,
   ]
 })

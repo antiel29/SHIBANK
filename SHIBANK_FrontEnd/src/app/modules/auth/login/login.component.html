@@ -1,9 +1,10 @@
 <div class="login-page">
+
   <div class="container">
     <form (ngSubmit)="onSubmit()" [formGroup]="user.form">
       <mat-form-field class="form-group">
         <mat-label for="username">Enter your username</mat-label>
-        <input matInput type="text" id="username" placeholder="Username" name="username" formControlName="username" />
+        <input matInput type="text" id="username" placeholder="Username" name="username" autocomplete="off" formControlName="username" />
         <mat-error *ngIf="user.form.get('username')?.hasError('required') && user.form.get('username')?.touched">
           Username is required
         </mat-error>
@@ -11,7 +12,7 @@
 
       <mat-form-field class="form-group">
         <mat-label for="password">Enter your password</mat-label>
-        <input matInput type="password" placeholder="Password" id="password" name="password" formControlName="password">
+        <input matInput type="password" placeholder="Password" id="password" name="password" autocomplete="off" formControlName="password">
         <mat-error *ngIf="user.form.get('password')?.hasError('required') && user.form.get('password')?.touched">
           Password is required
         </mat-error>
@@ -22,4 +23,5 @@
       <button class="register-button" [routerLink]="['/auth/register']" mat-raised-button>Register</button>
     </form>
   </div>
+  
 </div>

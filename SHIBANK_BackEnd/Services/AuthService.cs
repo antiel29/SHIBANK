@@ -28,17 +28,17 @@ namespace SHIBANK.Services
 
             if (user == null)
             {
-                return new AuthResult(false,string.Empty, "User not found");
+                return new AuthResult(false,string.Empty, "User not found.");
             }
 
             if (!await _userManager.CheckPasswordAsync(user, password))
             {
-                return new AuthResult(false,string.Empty, "Incorrect password");
+                return new AuthResult(false,string.Empty, "Incorrect password.");
             }
 
             var token = GenerateToken(user);
 
-            return new AuthResult(true, token,"All good!");
+            return new AuthResult(true, token,"Successeful login!");
 
         }
         public string GenerateToken(User user)

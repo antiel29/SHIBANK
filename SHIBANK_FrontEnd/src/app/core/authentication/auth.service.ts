@@ -3,34 +3,43 @@ import { HttpClient } from '@angular/common/http';
 import { UserLogin } from '../models/user-login.model';
 import { Observable } from 'rxjs';
 
-@Injectable({
+@Injectable
+({
   providedIn: 'root'
 })
-export class AuthService {
 
+export class AuthService 
+{
   private baseUrl = 'https://localhost:7150';
   private authToken = 'authToken'
 
   constructor(private http:HttpClient) { }
 
-  login(user:UserLogin): Observable<any>{
-    return this.http.post(`${this.baseUrl}/api/Auth/login`,user);
+  login(user:UserLogin): Observable<any>
+  {
+    return this.http.post(`${this.baseUrl}/api/auth/login`,user);
   }
   
-  storeToken(token: string):void{
+  storeToken(token: string):void
+  {
     localStorage.setItem(this.authToken,token);
   }
 
-  getToken(): string | null{
+  getToken(): string | null
+  {
     return localStorage.getItem(this.authToken);
   }
-
-  logout(): void{
+  
+  logout(): void
+  {
+    this.http.post(`${this.baseUrl}/api/auth/logout`,null);
     localStorage.removeItem(this.authToken);
   }
 
-  isAuthenticated():boolean{
+  isAuthenticated():boolean
+  {
     const token = this.getToken();
     return !!token;
   }
+
 }

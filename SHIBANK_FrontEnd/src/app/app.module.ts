@@ -16,12 +16,15 @@ import { AuthInterceptor } from './core/authentication/auth-interceptor.service'
 import { HomeComponent } from './modules/home/home.component';
 import { BankingModule } from './modules/banking/banking.module';
 
-@NgModule({
-  declarations: [
+@NgModule
+({
+  declarations: 
+  [
     AppComponent,
     HomeComponent,
   ],
-  imports: [
+  imports: 
+  [
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
@@ -34,7 +37,8 @@ import { BankingModule } from './modules/banking/banking.module';
     SharedModule,
     BankingModule,
   ],
-  providers: [
+  providers: 
+  [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
