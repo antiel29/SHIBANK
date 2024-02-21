@@ -1,6 +1,13 @@
 # SHIBANK - Secure Home Investment Bank
 SHIBANK is a Homebanking REST API that enables user registration, account and card creation, fund transfers, and secure transactions with others.
 
+<h3 align="center">Video demostration</h3>
+
+<div align="center">
+  <a href="https://youtu.be/q7-9pfgNk0I?si=8BN4XlEjC09cDv4L"><img src="https://raw.githubusercontent.com/antiel29/SAWAYAKA/main/Frontend/SAWAYAKA/src/assets/images/Youtube%20Preview.png" alt="Youtube image"></a>
+</div>
+
+
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⢠⣤⣶⡌⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⡿⢩⣔⣿⣗⡶⣍⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢃⣰⣾⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⡿⢡⣿⠟⠻⣿⣿⣮⡙⣆⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢡⣯⣿⣿⣿⢻⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
