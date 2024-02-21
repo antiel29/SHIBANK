@@ -4,7 +4,7 @@ SHIBANK is a Homebanking REST API that enables user registration, account and ca
 <h3 align="center">Video demostration</h3>
 
 <div align="center">
-  <a href="https://youtu.be/q7-9pfgNk0I?si=8BN4XlEjC09cDv4L"><img src="https://raw.githubusercontent.com/antiel29/SAWAYAKA/main/Frontend/SAWAYAKA/src/assets/images/Youtube%20Preview.png" alt="Youtube image"></a>
+  <a href="https://youtu.be/q7-9pfgNk0I?si=8BN4XlEjC09cDv4L"><img src="https://raw.githubusercontent.com/antiel29/SHIBANK/main/SHIBANK_FrontEnd/src/assets/images/youtube_preview.png" alt="Youtube image"></a>
 </div>
 
 ## Table of Contents
