@@ -16,12 +16,12 @@ SHIBANK is a Homebanking REST API that enables user registration, account and ca
 
 ## Technologies
 - **Backend:** .NET 7.0 (C#).
-- **Security:** Utilizes **ASP.Net Core Identity** for user role managment and authentication.
-- **Authentication:** Implements **JWT** for secure user authentication, providing access to the API with Bearer tokens.
-- **Containerization:** Utilizes **Docker** for containerizing the app.
-- **Database:** Stores data in **SQL Server**.
-- **ORM:** Employs **Entity Framework** as the Object-Relational framework for database interaction.
-- **Queries:** Using **LINQ** for querying and manipulating data.
+- **Security:** ASP.Net Core Identity.
+- **Authentication:** JWT.
+- **Containerization:** Docker.
+- **Database:** SQL Server.
+- **ORM:** Entity Framework.
+- **Queries:** LINQ.
 
 ## Features
 - **Swagger Documentation:** Integrated with Swashbuckle.
