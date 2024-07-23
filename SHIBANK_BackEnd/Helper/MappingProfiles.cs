@@ -12,9 +12,12 @@ namespace SHIBANK.Helper
             CreateMap<UserRegisterDto, User>();
             CreateMap<UserDto, User>();
 
-            CreateMap<BankAccount, BankAccountDto>();
+            CreateMap<BankAccount, BankAccountDto>()
+                .ForMember(dest => dest.OpeningDate, opt => opt.MapFrom(src => src.OpeningDate.ToString("dd/MM/yy")));
 
-            CreateMap<Transaction, TransactionDto>();
+            CreateMap<Transaction, TransactionDto>()
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString("dd/MM/yy hh:mm:ss")));
+
             CreateMap<TransactionCreateDto, Transaction>();
 
             CreateMap<Card, CardDto>()

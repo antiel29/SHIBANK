@@ -6,7 +6,7 @@
         public string? TransactionCode { get; set; }
         public string? Message { get; set; }
         public decimal Amount { get; set; }
-        public DateTime Date { get; set; }
+        public string? Date { get; set; }
         public string? SourceUsername { get; set; }
         public string? DestinyUsername { get; set; }
     }

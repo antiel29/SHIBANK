@@ -12,6 +12,7 @@ namespace SHIBANK.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -26,6 +27,7 @@ namespace SHIBANK.Controllers
         [HttpGet]
         [ProducesResponseType(200,Type=typeof(IEnumerable<UserDto>))]
         [SwaggerOperation(Summary = "Get a list of all users",Description = "This endpoint returns a list of all users.")]
+        [Authorize]
         public IActionResult GetUsers() 
         {
             var users = _userService.GetUsers();
@@ -38,6 +40,7 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(200, Type = typeof(UserDto))]
         [ProducesResponseType(404)]
         [SwaggerOperation(Summary = "Get user by id", Description = "Retrieve user information by their unique id.")]
+        [Authorize]
 
         public IActionResult GetUser(int id)
         {
@@ -54,6 +57,7 @@ namespace SHIBANK.Controllers
         [ProducesResponseType(200, Type = typeof(UserDto))]
         [ProducesResponseType(404)]
         [SwaggerOperation(Summary = "Get user by username", Description = "Retrieve user information by their unique username.")]
+        [Authorize]
         public IActionResult GetUser(string username)
         {
             if (!_userService.UserExists(username))
@@ -68,8 +72,8 @@ namespace SHIBANK.Controllers
         [HttpGet("current")]
         [ProducesResponseType(200, Type = typeof(UserDto))]
         [ProducesResponseType(401)]
-        [Authorize]
         [SwaggerOperation(Summary = "Get current user", Description = "Retrieve user information for the currently authenticated user.")]
+        [Authorize]
         public IActionResult GetUser()
         {
             var id = UserHelper.GetUserIdFromClaim(User);
@@ -121,8 +125,8 @@ namespace SHIBANK.Controllers
         [HttpPut("current/update")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        [Authorize]
         [SwaggerOperation(Summary = "Update current user",
             Description = "This endpoint allows you to update some or all of the field of the current user.\n" +
             "**To avoid updating a specific field, simply omit it from your request body.**\n" +
@@ -130,6 +134,7 @@ namespace SHIBANK.Controllers
             "- First name cannot exceed 50 characters.\n" +
             "- Last name cannot exceed 50 characters.\n" +
             "- Email cannot exceed 100 characters address and must be valid.")]
+        [Authorize]
 
         public IActionResult UpdateUser( [FromBody] UserUpdateDto updateUserDto)
         {
@@ -161,15 +166,16 @@ namespace SHIBANK.Controllers
         [HttpPut("{id}/update")]
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        [Authorize(Roles = "admin")]
         [SwaggerOperation(Summary = "Update user by id (admin)",
             Description = "**To avoid updating a specific field, simply omit it from your request body.**\n" +
             "- Username must have a minimum length of 3 characters,maximum of 50 and be unique.\n" +
             "- First name cannot exceed 50 characters.\n" +
             "- Last name cannot exceed 50 characters.\n" +
             "- Email cannot exceed 100 characters address and must be valid.")]
+        [Authorize(Roles = "admin")]
 
         public IActionResult UpdateUser(int id, [FromBody] UserUpdateDto updateUserDto)
         {
@@ -202,10 +208,12 @@ namespace SHIBANK.Controllers
 
         [HttpPut("current/change-password")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(204)]
         [SwaggerOperation(Summary = "Change current user password",
             Description = "This endpoint allows you to change your current password(needs your old password).\n" +
             "- New password must have a minimum length of 8 characters,maximum of 50 and include at least one digit,one lowercase letter, and one uppercase letter.")]
+        [Authorize]
         public IActionResult ChangePassword([FromBody] ChangePasswordDto changePasswordDto) 
         {
             if (!ModelState.IsValid)
@@ -231,10 +239,11 @@ namespace SHIBANK.Controllers
 
         [HttpDelete("current/delete")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [Authorize]
         [SwaggerOperation(Summary = "Delete current user",Description = "Delete current user with **all** of his information(accounts and transactions)")]
+        [Authorize]
         public IActionResult DeleteUser() 
         {
             var id = UserHelper.GetUserIdFromClaim(User);
@@ -253,10 +262,12 @@ namespace SHIBANK.Controllers
 
         [HttpDelete("{id}/delete")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [Authorize(Roles ="admin")]
         [SwaggerOperation(Summary = "Delete user by id (admin)", Description = "Delete user with **all** of his information(accounts and transactions)")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(int id)
         {
             if (!_userService.UserExists(id))
