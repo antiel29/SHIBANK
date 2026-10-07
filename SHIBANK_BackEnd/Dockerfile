@@ -17,12 +17,12 @@ EXPOSE 7150
 
 #Configure for bd
 ENV ASPNETCORE_URLS=https://0.0.0.0:7150   
-ENV ConnectionStrings__DefaultConnection "Server=host.docker.internal,62637;Database=SHIBANKDB;User Id=sa;Password=290896;Encrypt=False"
+ENV ConnectionStrings__DefaultConnection "Server=host.docker.internal,62637;Database=SHIBANKDB;User Id=sa;Password=;Encrypt=False"
 
 #Configure for https certificate
 COPY certificate.pfx /app/certificate.pfx
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificate.pfx
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password=punpun
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=
 
 ENTRYPOINT ["dotnet", "SHIBANK.dll"]
 
